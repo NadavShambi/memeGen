@@ -16,8 +16,14 @@ var gCurrMeme
 function getImgs() {
   return gImgs
 }
-function getMemes(){
+function getMemes() {
   return gMemes
+}
+
+function setCurrMeme(id) {
+  const meme = gMemes.find(meme => meme.id === id)
+  gCurrMeme = meme
+  return gCurrMeme
 }
 
 function uploadImg() {
@@ -70,21 +76,22 @@ function doUploadImg(imgDataUrl, onSuccess) {
 
 function createNewMeme(img) {
   const meme = {
-    id:getRandomId(),
+    id: getRandomId(),
     img,
     selectedLineIdx: 0,
+    result: '',
     lines: [
       {
-        txt:'',
+        txt: '',
         size: 40,
-        pos: {x:calcCenterBaseTextX('top text', 40),y:100},
+        pos: { x: calcCenterBaseTextX('top text', 40), y: 100 },
         color: '#000000',
         isDarg: false
       },
       {
-        txt:'',
+        txt: '',
         size: 30,
-        pos: {x:calcCenterBaseTextX('top text', 40),y:500},
+        pos: { x: calcCenterBaseTextX('top text', 40), y: gElCanvas.height - 100 },
         color: '#0000ff',
         isDarg: false
       },
@@ -92,24 +99,48 @@ function createNewMeme(img) {
   }
   gCurrMeme = meme
   gMemes.push(meme)
-  saveToStorage(MEMES_KEY,gMemes)
+  saveMemes()
   return meme
 }
-
-
-
 
 function calcCenterBaseTextX(txt, size) {
   const center = (gElCanvas.width / 2) - (txt.length * (size / 5))
   return center
 }
+function calcCenterBaseTextY(txt, size) {
+  const center = (gElCanvas.height / 2)
+  return center
+}
 
-function getCurrMeme(){
+function getCurrMeme() {
   return gCurrMeme
 }
 
+function changeText(text) {
+  gCurrMeme.lines[gCurrMeme.selectedLineIdx].txt = text
+  return gCurrMeme
+}
 
+function setColor(color) {
+  gCurrMeme.lines[gCurrMeme.selectedLineIdx].color = color
+  return gCurrMeme
+}
 
+function setFontSize(size) {
+  gCurrMeme.lines[gCurrMeme.selectedLineIdx].size = size
+  return gCurrMeme
+}
+
+function setChosenMeme(){
+  gCurrMeme.selectedLineIdx++
+  if (gCurrMeme.selectedLineIdx === gCurrMeme.lines.length) gCurrMeme.selectedLineIdx = 0
+  return gCurrMeme
+}
+
+function setMemeResult(){
+  gCurrMeme.result = getCanvasImgLink()
+  saveMemes()
+}
 
 
 function _createImgs() {
@@ -140,4 +171,9 @@ function _createImgs() {
     // { id: 24, url: './img1/24.jpg', keywords: ['funny', 'man'] },
     // { id: 25, url: './img1/25.jpg', keywords: ['funny', 'man'] },
   ]
+}
+
+
+function saveMemes(){
+  saveToStorage(MEMES_KEY, gMemes)
 }

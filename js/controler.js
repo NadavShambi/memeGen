@@ -21,8 +21,8 @@ function onChangeView(view) {
             document.querySelector(`.${op}`).classList.add('hide')
         }
     })
-    
-    if(view === 'memes') renderSavedMemes()
+
+    if (view === 'memes') renderSavedMemes()
 }
 
 function resizeCanvas() {
@@ -78,12 +78,12 @@ function renderGallery() {
     document.querySelector('.gallery').innerHTML = galleryHTML
 }
 
-function renderSavedMemes(){
+function renderSavedMemes() {
     const memes = getMemes()
     console.log(memes);
-    const memesHTML = memes.map(meme=>{
-        return`
-        <img src="${meme.result}" class="img">
+    const memesHTML = memes.map(meme => {
+        return `
+        <img src="${meme.result}" class="img" onclick="onEditMeme('${meme.id}')">
         
         `
     }).join('')
@@ -92,23 +92,30 @@ function renderSavedMemes(){
 
 // Letsss memememmemeiittttout!
 
+function onEditMeme(id) {
+    const meme = setCurrMeme(id)
+    renderMeme(meme)
+}
+
 function onStartNewMeme(ev) {
-    const meme = createNewMeme(ev.target)
+    const meme = createNewMeme(ev.target.src);
     renderMeme(meme)
     renderMemeSettings(meme.lines[0])
-
 }
+
+
 
 function renderMeme(meme) {
     onChangeView('memes-gen')
     // console.log(meme);
     renderImg(meme.img)
     renderLines(meme.lines)
-    meme.result = getImgLink()
+    setMemeResult()
 }
 
 function renderImg(img) {
     // Draw the img on the canvas
+    img = getImgElement(img)
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
 }
 
@@ -127,29 +134,23 @@ function writeText(x, y, size, color, txt) {
 }
 
 function onChangeText(text) {
-    const meme = getCurrMeme()
-    meme.lines[meme.selectedLineIdx].txt = text
+    const meme = changeText(text)
     renderMeme(meme)
 }
 
 function onSetColor(color) {
-    const meme = getCurrMeme()
-    meme.lines[meme.selectedLineIdx].color = color
+    const meme = setColor(color)
     renderMeme(meme)
-
 }
 
 function onSetFontSize(size) {
-    const meme = getCurrMeme()
-    meme.lines[meme.selectedLineIdx].size = size
+    const meme =setFontSize(size)
     renderMeme(meme)
 
 }
 
 function onSetChosenLine() {
-    const meme = getCurrMeme()
-    meme.selectedLineIdx++
-    if (meme.selectedLineIdx === meme.lines.length) meme.selectedLineIdx = 0
+    const meme = setChosenMeme()
     renderMemeSettings(meme.lines[meme.selectedLineIdx])
 }
 
@@ -160,10 +161,12 @@ function downloadImg(elLink) {
     elLink.href = imgContent
 }
 
-function getImgLink(){
+function getCanvasImgLink() {
     const imgContent = gElCanvas.toDataURL('image/jpeg')
     return imgContent
 }
+
+
 
 function renderMemeSettings(line) {
 
@@ -174,5 +177,16 @@ function renderMemeSettings(line) {
     fontSize.value = line.size
     fontColor.value = line.color
     txt.value = line.txt
+
+}
+
+function getImgElement(src){
+
+const img = new Image()
+
+img.src = src
+
+
+return img
 
 }
