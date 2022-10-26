@@ -121,7 +121,7 @@ function renderImg(img) {
 }
 
 function renderLines(lines) {
-    if(!lines.length) return
+    if (!lines.length) return
     lines.forEach(line => {
         const { pos, size, color, txt } = line
         writeText(pos.x, pos.y, size, color, txt)
@@ -146,16 +146,16 @@ function onSetColor(color) {
 }
 
 function onSetFontSize(size) {
-    const meme =setFontSize(size)
+    const meme = setFontSize(size)
     renderMeme(meme)
 }
 
-function onAddLine(){
+function onAddLine() {
     const meme = addLine()
     renderMemeSettings()
     renderMeme(meme)
 }
-function onDeleteLine(){
+function onDeleteLine() {
     const meme = deleteLine()
     renderMemeSettings()
     renderMeme(meme)
@@ -166,7 +166,7 @@ function onSetChosenLine() {
     renderMemeSettings()
 }
 
-function onDeleteMeme(){
+function onDeleteMeme() {
     deleteMeme()
     renderGallery()
 }
@@ -186,18 +186,18 @@ function getCanvasImgLink() {
 
 
 function renderMemeSettings() {
-    const {lines,selectedLineIdx} = getCurrMeme()
+    const { lines, selectedLineIdx } = getCurrMeme()
     const line = lines[selectedLineIdx]
 
     const fontSize = document.querySelector('.font-size')
     const fontColor = document.querySelector('.font-color')
     const txt = document.querySelector('.meme-txt')
 
-    if(line){
+    if (line) {
         fontSize.value = line.size
         fontColor.value = line.color
         txt.value = line.txt
-    }else{
+    } else {
         fontSize.value = 40
         fontColor.value = '#000000'
         txt.value = ''
@@ -205,13 +205,8 @@ function renderMemeSettings() {
 
 }
 
-function getImgElement(src){
-
-const img = new Image()
-
-img.src = src
-
-
-return img
-
+function getImgElement(src) {
+    const img = new Image()
+    img.src = src
+    return img
 }
