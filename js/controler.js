@@ -9,21 +9,20 @@ function onInit() {
     gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
     resizeCanvas()
-    console.log('gCtx:', gCtx)
+    renderGallery()
 
 }
 
-function onChangeView(view){
-    console.log(view);
-    const options = ['gallery','memes']
-    options.forEach(op=>{
-        if (view === op){
+function onChangeView(view) {
+    const options = ['gallery', 'memes']
+    options.forEach(op => {
+        if (view === op) {
             document.querySelector(`.${op}`).classList.remove('hide')
-        } else{
+        } else {
             document.querySelector(`.${op}`).classList.add('hide')
         }
     })
-    
+
 }
 
 function resizeCanvas() {
@@ -32,12 +31,9 @@ function resizeCanvas() {
     gElCanvas.height = elContainer.offsetHeight
 }
 
-
-
 function onLastImg() {
     renderImg(gImg)
 }
-
 
 // DOWNLOAD
 
@@ -51,16 +47,19 @@ function downloadImg(elLink) {
 
 //UPLOAD
 
-
-
 function onImgInp(ev) {
     loadImageFromInput(ev, renderImg)
+    console.log('ev:', ev)
+    console.log(ev.target);
+
 }
 
 // CallBack func will run on success load of the img
 function loadImageFromInput(ev, onImageReady) {
     const reader = new FileReader()
     // After we read the file
+    console.log('reader:', reader)
+
     reader.onload = function (event) {
         let img = new Image() // Create a new html img element
         img.src = event.target.result // Set the img src to the img file we read
@@ -69,10 +68,12 @@ function loadImageFromInput(ev, onImageReady) {
         img.onload = onImageReady.bind(null, img)
         // Can also do it this way:
         // img.onload = () => onImageReady(img)
+
     }
-    console.log(ev.target.files[0]);
+    console.log('ev.target.files[0]:', ev.target.files[0])
     reader.readAsDataURL(ev.target.files[0]) // Read the file we picked
 }
+
 
 
 function renderImg(img) {
@@ -80,3 +81,42 @@ function renderImg(img) {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
 }
 
+
+
+//Gallery
+
+function renderGallery() {
+    const imgs = getImgs()
+    const galleryHTML = imgs.map(img => {
+        const { url, id } = img
+        return `
+      <img src=".${url}" onclick="onStartNewMeme(event)">
+        `
+    }).join('')
+    document.querySelector('.gallery').innerHTML = galleryHTML
+}
+
+function onStartNewMeme(ev) {
+    const meme = createNewMeme(ev.target)
+    renderMeme(meme)
+}
+
+function renderMeme(meme){
+    onChangeView('memes')
+    // console.log(meme);
+    renderImg(meme.img)
+    renderLines(meme.lines)
+}
+
+function renderLines(lines){
+    lines.forEach(line=>{
+        console.log(line);
+        const {pos,size,color,txt} = line
+        writeText(pos.x,pos.y,size,color,txt)
+    })
+}
+function writeText(x,y,size,color,txt){
+    gCtx.font = `${size}px Ariel`
+    gCtx.fillStyle = color
+    gCtx.fillText(txt,x,y)
+  }

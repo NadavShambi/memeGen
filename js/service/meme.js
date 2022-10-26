@@ -1,26 +1,20 @@
 'use strict'
 
+const IMAGES_KEY = 'imagesDB'
+const MEMES_KEY = 'memeDB'
+
 var gKeywordSearchCountMap = { 'funny': 12, 'cat': 16, 'baby': 2 }
 
+var gImgs = loadFromStorage(IMAGES_KEY) || _createImgs()
 
-var gImgs = [{ id: 1, url: 'img/1.jpg', keywords: ['funny', 'cat'] }];
+var gMeme = loadFromStorage(MEMES_KEY) || []
+
+// MVC IMGS
 
 
-var gMeme = {
-  selectedImgId: 5,
-  selectedLineIdx: 0,
-  lines: [
-    {
-      txt: 'I sometimes eat Falafel',
-      size: 20,
-      align: 'left',
-      color: 'red'
-    }
-  ]
+function getImgs() {
+  return gImgs
 }
-
-
-
 
 function uploadImg() {
   const imgDataUrl = gElCanvas.toDataURL("image/jpeg")// Gets the canvas content as an image format
@@ -69,3 +63,68 @@ function doUploadImg(imgDataUrl, onSuccess) {
   XHR.send(formData)
 }
 
+
+function createNewMeme(img) {
+  const meme = {
+    img,
+    selectedLineIdx: 0,
+    lines: [
+      {
+        txt: 'Top Text',
+        size: 40,
+        pos: {x:calcCenterBaseText('top text', 40),y:100},
+        color: 'black',
+        isDarg: false
+      },
+      {
+        txt: 'bottom Text',
+        size: 40,
+        pos: {x:calcCenterBaseText('top text', 40),y:400},
+        color: 'black',
+        isDarg: false
+      },
+    ]
+  }
+  gMeme.push(meme)
+  saveToStorage(MEMES_KEY, gMeme)
+  return meme
+}
+
+function calcCenterBaseText(txt, size) {
+  const center = (gElCanvas.width / 2) - (txt.length * (size / 2))
+  return center
+}
+
+
+
+
+
+function _createImgs() {
+  return [
+    { id: 1, url: './img1/1.jpg', keywords: ['funny', 'man'] },
+    { id: 2, url: './img1/2.jpg', keywords: ['funny', 'dog'] },
+    { id: 3, url: './img1/3.jpg', keywords: ['funny', 'dog', 'baby'] },
+    { id: 4, url: './img1/4.jpg', keywords: ['funny', 'cat'] },
+    { id: 5, url: './img1/5.jpg', keywords: ['funny', 'baby'] },
+    { id: 6, url: './img1/6.jpg', keywords: ['funny', 'man'] },
+    { id: 7, url: './img1/7.jpg', keywords: ['funny', 'baby'] },
+    { id: 8, url: './img1/8.jpg', keywords: ['funny', 'man'] },
+    { id: 9, url: './img1/9.jpg', keywords: ['funny', 'baby'] },
+    { id: 10, url: './img1/10.jpg', keywords: ['funny', 'man'] },
+    { id: 11, url: './img1/11.jpg', keywords: ['funny', 'man'] },
+    { id: 12, url: './img1/12.jpg', keywords: ['funny', 'man'] },
+    { id: 13, url: './img1/13.jpg', keywords: ['funny', 'man'] },
+    { id: 14, url: './img1/14.jpg', keywords: ['funny', 'man'] },
+    { id: 15, url: './img1/15.jpg', keywords: ['funny', 'man'] },
+    { id: 16, url: './img1/16.jpg', keywords: ['funny', 'man'] },
+    { id: 17, url: './img1/17.jpg', keywords: ['funny', 'man'] },
+    { id: 18, url: './img1/18.jpg', keywords: ['funny', 'man'] },
+    // { id: 19, url: './img1/19.jpg', keywords: ['funny', 'man'] },
+    // { id: 20, url: './img1/20.jpg', keywords: ['funny', 'man'] },
+    // { id: 21, url: './img1/21.jpg', keywords: ['funny', 'man'] },
+    // { id: 22, url: './img1/22.jpg', keywords: ['funny', 'woman'] },
+    // { id: 23, url: './img1/23.jpg', keywords: ['funny', 'man'] },
+    // { id: 24, url: './img1/24.jpg', keywords: ['funny', 'man'] },
+    // { id: 25, url: './img1/25.jpg', keywords: ['funny', 'man'] },
+  ]
+}
