@@ -8,7 +8,8 @@
     --light1: #b7b7b7;
     --light3: #eee;
 
-
+    --box-shadow: 5px 5px 10px #333,
+    inset 5px 5px 10px #3335;
 
     --gaps: 10px;
 }

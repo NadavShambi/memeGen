@@ -10,7 +10,6 @@ function onInit() {
     gCtx = gElCanvas.getContext('2d')
     resizeCanvas()
     renderGallery()
-
 }
 
 function onChangeView(view) {
@@ -22,7 +21,8 @@ function onChangeView(view) {
             document.querySelector(`.${op}`).classList.add('hide')
         }
     })
-
+    
+    if(view === 'memes') renderSavedMemes()
 }
 
 function resizeCanvas() {
@@ -31,19 +31,8 @@ function resizeCanvas() {
     gElCanvas.height = elContainer.offsetHeight
 }
 
-function onLastImg() {
-    renderImg(gImg)
-}
 
-// DOWNLOAD
 
-function downloadImg(elLink) {
-    // image/jpeg the default format
-    console.log(elLink);
-    const imgContent = gElCanvas.toDataURL('image/jpeg')
-    console.log('imgContent:', imgContent)
-    elLink.href = imgContent
-}
 
 //UPLOAD
 
@@ -75,20 +64,13 @@ function loadImageFromInput(ev, onImageReady) {
 }
 
 
-
-function renderImg(img) {
-    // Draw the img on the canvas
-    gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
-}
-
-
-
 //Gallery
 
 function renderGallery() {
+    onChangeView('gallery')
     const imgs = getImgs()
     const galleryHTML = imgs.map(img => {
-        const { url} = img
+        const { url } = img
         return `
       <img src="${url}" onclick="onStartNewMeme(event)">
         `
@@ -96,14 +78,17 @@ function renderGallery() {
     document.querySelector('.gallery').innerHTML = galleryHTML
 }
 
-// function renderSavedMemes(){
-//     const memes = getMemes()
-
-//     const memesHTML = memes.map(meme=>{
-//         //saved img??
-//     })
-//     console.log(memes);
-// }
+function renderSavedMemes(){
+    const memes = getMemes()
+    console.log(memes);
+    const memesHTML = memes.map(meme=>{
+        return`
+        <img src="${meme.result}" class="img">
+        
+        `
+    }).join('')
+    document.querySelector('.memes').innerHTML = memesHTML
+}
 
 // Letsss memememmemeiittttout!
 
@@ -111,6 +96,7 @@ function onStartNewMeme(ev) {
     const meme = createNewMeme(ev.target)
     renderMeme(meme)
     renderMemeSettings(meme.lines[0])
+
 }
 
 function renderMeme(meme) {
@@ -118,6 +104,12 @@ function renderMeme(meme) {
     // console.log(meme);
     renderImg(meme.img)
     renderLines(meme.lines)
+    meme.result = getImgLink()
+}
+
+function renderImg(img) {
+    // Draw the img on the canvas
+    gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
 }
 
 function renderLines(lines) {
@@ -126,6 +118,7 @@ function renderLines(lines) {
         writeText(pos.x, pos.y, size, color, txt)
     })
 }
+
 function writeText(x, y, size, color, txt) {
     if (!txt) txt = 'Text Here!'
     gCtx.font = `${size}px Ariel`
@@ -160,8 +153,16 @@ function onSetChosenLine() {
     renderMemeSettings(meme.lines[meme.selectedLineIdx])
 }
 
-function onSaveMeme() {
-    saveMeme()
+function downloadImg(elLink) {
+    // image/jpeg the default format
+    console.log(elLink);
+    const imgContent = gElCanvas.toDataURL('image/jpeg')
+    elLink.href = imgContent
+}
+
+function getImgLink(){
+    const imgContent = gElCanvas.toDataURL('image/jpeg')
+    return imgContent
 }
 
 function renderMemeSettings(line) {
@@ -169,11 +170,7 @@ function renderMemeSettings(line) {
     const fontSize = document.querySelector('.font-size')
     const fontColor = document.querySelector('.font-color')
     const txt = document.querySelector('.meme-txt')
-    console.log('fontSize.value:', fontSize.value)
-    console.log('fontColor.value', fontColor.value)
-    console.log('txt.value', txt.value)
 
-    
     fontSize.value = line.size
     fontColor.value = line.color
     txt.value = line.txt

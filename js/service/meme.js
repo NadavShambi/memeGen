@@ -91,14 +91,13 @@ function createNewMeme(img) {
     ]
   }
   gCurrMeme = meme
+  gMemes.push(meme)
+  saveToStorage(MEMES_KEY,gMemes)
   return meme
 }
 
 
-function saveMeme(){
-  gMemes.push(gCurrMeme)
-  saveToStorage(MEMES_KEY, gMemes)
-}
+
 
 function calcCenterBaseTextX(txt, size) {
   const center = (gElCanvas.width / 2) - (txt.length * (size / 5))
