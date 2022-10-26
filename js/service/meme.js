@@ -7,13 +7,17 @@ var gKeywordSearchCountMap = { 'funny': 12, 'cat': 16, 'baby': 2 }
 
 var gImgs = loadFromStorage(IMAGES_KEY) || _createImgs()
 
-var gMeme = loadFromStorage(MEMES_KEY) || []
+var gMemes = loadFromStorage(MEMES_KEY) || []
 
+var gCurrMeme
 // MVC IMGS
 
 
 function getImgs() {
   return gImgs
+}
+function getMemes(){
+  return gMemes
 }
 
 function uploadImg() {
@@ -66,33 +70,43 @@ function doUploadImg(imgDataUrl, onSuccess) {
 
 function createNewMeme(img) {
   const meme = {
+    id:getRandomId(),
     img,
     selectedLineIdx: 0,
     lines: [
       {
-        txt: 'Top Text',
+        txt:'',
         size: 40,
-        pos: {x:calcCenterBaseText('top text', 40),y:100},
-        color: 'black',
+        pos: {x:calcCenterBaseTextX('top text', 40),y:100},
+        color: '#000000',
         isDarg: false
       },
       {
-        txt: 'bottom Text',
-        size: 40,
-        pos: {x:calcCenterBaseText('top text', 40),y:400},
-        color: 'black',
+        txt:'',
+        size: 30,
+        pos: {x:calcCenterBaseTextX('top text', 40),y:500},
+        color: '#0000ff',
         isDarg: false
       },
     ]
   }
-  gMeme.push(meme)
-  saveToStorage(MEMES_KEY, gMeme)
+  gCurrMeme = meme
   return meme
 }
 
-function calcCenterBaseText(txt, size) {
-  const center = (gElCanvas.width / 2) - (txt.length * (size / 2))
+
+function saveMeme(){
+  gMemes.push(gCurrMeme)
+  saveToStorage(MEMES_KEY, gMemes)
+}
+
+function calcCenterBaseTextX(txt, size) {
+  const center = (gElCanvas.width / 2) - (txt.length * (size / 5))
   return center
+}
+
+function getCurrMeme(){
+  return gCurrMeme
 }
 
 

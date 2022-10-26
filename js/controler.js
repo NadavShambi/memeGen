@@ -14,7 +14,7 @@ function onInit() {
 }
 
 function onChangeView(view) {
-    const options = ['gallery', 'memes']
+    const options = ['gallery', 'memes-gen', 'memes']
     options.forEach(op => {
         if (view === op) {
             document.querySelector(`.${op}`).classList.remove('hide')
@@ -88,35 +88,94 @@ function renderImg(img) {
 function renderGallery() {
     const imgs = getImgs()
     const galleryHTML = imgs.map(img => {
-        const { url, id } = img
+        const { url} = img
         return `
-      <img src=".${url}" onclick="onStartNewMeme(event)">
+      <img src="${url}" onclick="onStartNewMeme(event)">
         `
     }).join('')
     document.querySelector('.gallery').innerHTML = galleryHTML
 }
 
+// function renderSavedMemes(){
+//     const memes = getMemes()
+
+//     const memesHTML = memes.map(meme=>{
+//         //saved img??
+//     })
+//     console.log(memes);
+// }
+
+// Letsss memememmemeiittttout!
+
 function onStartNewMeme(ev) {
     const meme = createNewMeme(ev.target)
     renderMeme(meme)
+    renderMemeSettings(meme.lines[0])
 }
 
-function renderMeme(meme){
-    onChangeView('memes')
+function renderMeme(meme) {
+    onChangeView('memes-gen')
     // console.log(meme);
     renderImg(meme.img)
     renderLines(meme.lines)
 }
 
-function renderLines(lines){
-    lines.forEach(line=>{
-        console.log(line);
-        const {pos,size,color,txt} = line
-        writeText(pos.x,pos.y,size,color,txt)
+function renderLines(lines) {
+    lines.forEach(line => {
+        const { pos, size, color, txt } = line
+        writeText(pos.x, pos.y, size, color, txt)
     })
 }
-function writeText(x,y,size,color,txt){
+function writeText(x, y, size, color, txt) {
+    if (!txt) txt = 'Text Here!'
     gCtx.font = `${size}px Ariel`
     gCtx.fillStyle = color
-    gCtx.fillText(txt,x,y)
-  }
+    gCtx.fillText(txt, x, y)
+}
+
+function onChangeText(text) {
+    const meme = getCurrMeme()
+    meme.lines[meme.selectedLineIdx].txt = text
+    renderMeme(meme)
+}
+
+function onSetColor(color) {
+    const meme = getCurrMeme()
+    meme.lines[meme.selectedLineIdx].color = color
+    renderMeme(meme)
+
+}
+
+function onSetFontSize(size) {
+    const meme = getCurrMeme()
+    meme.lines[meme.selectedLineIdx].size = size
+    renderMeme(meme)
+
+}
+
+function onSetChosenLine() {
+    const meme = getCurrMeme()
+    meme.selectedLineIdx++
+    if (meme.selectedLineIdx === meme.lines.length) meme.selectedLineIdx = 0
+    renderMemeSettings(meme.lines[meme.selectedLineIdx])
+}
+
+function onSaveMeme() {
+    saveMeme()
+}
+
+function renderMemeSettings(line) {
+
+    const fontSize = document.querySelector('.font-size')
+    const fontColor = document.querySelector('.font-color')
+    const txt = document.querySelector('.meme-txt')
+    console.log('fontSize.value:', fontSize.value)
+    console.log('fontColor.value', fontColor.value)
+    console.log('txt.value', txt.value)
+
+    
+    fontSize.value = line.size
+    fontColor.value = line.color
+    txt.value = line.txt
+
+}

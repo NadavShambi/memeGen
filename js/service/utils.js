@@ -1,8 +1,12 @@
 
-function randomLetter() {
-    const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    const idx = getRandomInt(0, letters.length)
-    return letters.charAt(idx)
+function getRandomId(num = 6) {
+    const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    let id = ''
+    for (var i = 0; i < num; i++) {
+        const idx = getRandomInt(0, letters.length)
+        id += letters.charAt(idx)
+    }
+    return id
 }
 
 function getRandomInt(min, max) {
