@@ -1,7 +1,9 @@
+// const width = gCtx.measureText(txt).width
+
+
 let gElCanvas
 let gCtx
 let gLastPos
-let gImg
 
 const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
 
@@ -33,14 +35,12 @@ function resizeCanvas() {
 }
 
 
-
-
 //UPLOAD
 
 function onImgInp(ev) {
     loadImageFromInput(ev, renderImg)
-    console.log('ev:', ev)
-    console.log(ev.target);
+    // console.log('ev:', ev)
+    // console.log(ev.target);
 
 }
 
@@ -53,7 +53,7 @@ function loadImageFromInput(ev, onImageReady) {
     reader.onload = function (event) {
         let img = new Image() // Create a new html img element
         img.src = event.target.result // Set the img src to the img file we read
-        gImg = img
+
         // Run the callBack func, To render the img on the canvas
         img.onload = onImageReady.bind(null, img)
         // Can also do it this way:
@@ -81,7 +81,7 @@ function renderGallery() {
 
 function renderSavedMemes() {
     const memes = getMemes()
-    console.log(memes);
+    // console.log(memes);
     const memesHTML = memes.map(meme => {
         return `
         <img src="${meme.result}" class="img" onclick="onEditMeme('${meme.id}')">
@@ -104,8 +104,6 @@ function onStartNewMeme(ev) {
     renderMeme(meme)
     renderMemeSettings(meme.lines[0])
 }
-
-
 
 function renderMeme(meme) {
     onChangeView('memes-gen')
@@ -137,6 +135,7 @@ function writeText(x, y, size, color, txt) {
     gCtx.fillText(txt, x, y)
     gCtx.fillStyle = '#000000'
     gCtx.lineWidth = 3
+    // const width = gCtx.measureText(txt).width
     gCtx.strokeText(txt, x, y)
 }
 
@@ -287,7 +286,7 @@ function onMove(ev) {
 
 function onUp() {
     // console.log('Im from onUp')
-    console.log('clicked! UPPPP');
+    // console.log('clicked! UPPPP');
 
     const meme = getCurrMeme()
     meme.lines.forEach(line => {
@@ -326,12 +325,6 @@ function isTextClicked(clickedPos, t) {
     let { pos, size, txt } = t
 
     if (!txt) txt = 'Text Here!'
-
-    // if (clickedPos.x >= pos.x && clickedPos.x <= pos.x + txt.length * (size / 2) &&
-    //     clickedPos.y <= pos.y && clickedPos.y >= pos.y - size) {
-    //     // return true
-    // }
-    // // return false
 
     return (clickedPos.x >= pos.x && clickedPos.x <= pos.x + txt.length * (size / 1.7) &&
         clickedPos.y <= pos.y && clickedPos.y >= pos.y - size)

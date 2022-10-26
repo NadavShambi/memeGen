@@ -3,7 +3,7 @@
 const IMAGES_KEY = 'imagesDB'
 const MEMES_KEY = 'memeDB'
 
-var gKeywordSearchCountMap = { 'funny': 12, 'cat': 16, 'baby': 2 }
+// var gKeywordSearchCountMap = { 'funny': 12, 'cat': 16, 'baby': 2 }
 
 var gImgs = loadFromStorage(IMAGES_KEY) || _createImgs()
 

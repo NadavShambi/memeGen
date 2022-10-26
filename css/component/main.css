@@ -42,7 +42,6 @@ canvas {
     background-color: var(--light1);
 }
 
-
 .memes{
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax(200px, 1fr));
