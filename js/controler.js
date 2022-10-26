@@ -10,6 +10,7 @@ function onInit() {
     gCtx = gElCanvas.getContext('2d')
     resizeCanvas()
     renderGallery()
+    addListeners()
 }
 
 function onChangeView(view) {
@@ -162,7 +163,7 @@ function onDeleteLine() {
 }
 
 function onSetChosenLine() {
-    const meme = setChosenMeme()
+    const meme = setChosenLine()
     renderMemeSettings()
 }
 
@@ -209,4 +210,125 @@ function getImgElement(src) {
     const img = new Image()
     img.src = src
     return img
+}
+
+
+
+
+// drag and drop
+
+
+function addListeners() {
+    addMouseListeners()
+    addTouchListeners()
+    //Listen for resize ev 
+
+}
+
+function addMouseListeners() {
+    gElCanvas.addEventListener('mousemove', onMove)
+    gElCanvas.addEventListener('mousedown', onDown)
+    gElCanvas.addEventListener('mouseup', onUp)
+}
+
+function addTouchListeners() {
+    gElCanvas.addEventListener('touchmove', onMove)
+    gElCanvas.addEventListener('touchstart', onDown)
+    gElCanvas.addEventListener('touchend', onUp)
+}
+
+function onDown(ev) {
+    // console.log('Im from onDown')
+    //Get the ev pos from mouse or touch
+    // console.log(ev);
+    const pos = getEvPos(ev)
+    // console.log('pos',pos);
+    const meme = getCurrMeme()
+    meme.lines.forEach((t, idx) => {
+        // console.log(isTextClicked(pos, t),t);
+        if (!isTextClicked(pos, t)) return
+        setChosenLine(idx)
+        renderMemeSettings()
+
+        console.log(idx);
+        setTextDrag(true)
+        document.body.style.cursor = 'grabbing'
+    })
+    // console.log(ev);
+    //Save the pos we start from 
+    gStartPos = pos
+
+}
+
+function onMove(ev) {
+    // console.log('Im from onMove')
+    // const { isDrag } = getText()
+
+    const meme = getCurrMeme()
+
+    meme.lines.forEach(line => {
+        if (!line.drag) return
+        const pos = getEvPos(ev)
+        const dx = pos.x - gStartPos.x
+        const dy = pos.y - gStartPos.y
+        moveText(dx, dy)
+        gStartPos = pos
+    })
+    renderMeme(meme)
+    //Calc the delta , the diff we moved
+    //Save the last pos , we remember where we`ve been and move accordingly
+    //The canvas is render again after every move
+
+}
+
+function onUp() {
+    // console.log('Im from onUp')
+    console.log('clicked! UPPPP');
+
+    const meme = getCurrMeme()
+    meme.lines.forEach(line => {
+        setTextDrag(false)
+    })
+    document.body.style.cursor = 'grab'
+
+
+}
+
+
+function getEvPos(ev) {
+
+    //Gets the offset pos , the default pos
+    let pos = {
+        x: ev.offsetX,
+        y: ev.offsetY
+    }
+    // Check if its a touch ev
+    if (TOUCH_EVS.includes(ev.type)) {
+        //soo we will not trigger the mouse ev
+        ev.preventDefault()
+        //Gets the first touch point
+        ev = ev.changedTouches[0]
+        //Calc the right pos according to the touch screen
+        pos = {
+            x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
+            y: ev.pageY - ev.target.offsetTop - ev.target.clientTop
+        }
+    }
+    return pos
+}
+
+
+function isTextClicked(clickedPos, t) {
+    let { pos, size, txt } = t
+
+    if (!txt) txt = 'Text Here!'
+
+    // if (clickedPos.x >= pos.x && clickedPos.x <= pos.x + txt.length * (size / 2) &&
+    //     clickedPos.y <= pos.y && clickedPos.y >= pos.y - size) {
+    //     // return true
+    // }
+    // // return false
+
+    return (clickedPos.x >= pos.x && clickedPos.x <= pos.x + txt.length * (size / 2) &&
+        clickedPos.y <= pos.y && clickedPos.y >= pos.y - size)
 }

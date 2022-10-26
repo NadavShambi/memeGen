@@ -86,14 +86,14 @@ function createNewMeme(img) {
         size: 40,
         pos: { x: calcCenterBaseTextX('top text', 40), y: 100 },
         color: '#000000',
-        isDarg: false
+        drag: false
       },
       {
         txt: '',
         size: 30,
         pos: { x: calcCenterBaseTextX('top text', 40), y: gElCanvas.height - 100 },
         color: '#0000ff',
-        isDarg: false
+        drag: false
       },
     ]
   }
@@ -131,7 +131,13 @@ function setFontSize(size) {
   return gCurrMeme
 }
 
-function setChosenMeme() {
+function setChosenLine(idx) {
+  console.log(idx);
+  if (!isNaN(idx)) {
+    gCurrMeme.selectedLineIdx = idx
+    return
+  }
+  console.log('here');
   gCurrMeme.selectedLineIdx++
   if (gCurrMeme.selectedLineIdx === gCurrMeme.lines.length) gCurrMeme.selectedLineIdx = 0
   return gCurrMeme
@@ -148,7 +154,7 @@ function addLine() {
     size: 40,
     pos: { x: calcCenterBaseTextX('top text', 40), y: gElCanvas.height / 2 + 20 },
     color: '#000000',
-    isDarg: false
+    drag: false
   }
   gCurrMeme.lines.push(line)
   gCurrMeme.selectedLineIdx = gCurrMeme.lines.length - 1
@@ -202,4 +208,15 @@ function _createImgs() {
 
 function saveMemes() {
   saveToStorage(MEMES_KEY, gMemes)
+}
+
+
+function moveText(dx, dy) {
+  gCurrMeme.lines[gCurrMeme.selectedLineIdx].pos.x += dx
+  gCurrMeme.lines[gCurrMeme.selectedLineIdx].pos.y += dy
+}
+
+function setTextDrag(isDrag) {
+  gCurrMeme.lines[gCurrMeme.selectedLineIdx].drag = isDrag
+  console.log(gCurrMeme.lines[gCurrMeme.selectedLineIdx].drag);
 }
