@@ -20,7 +20,7 @@
 
     <main class="content flex col">
       <section class="gallery">
-        <h2>gallery here</h2>
+        <!-- <h2>gallery here</h2> -->
       </section>
 
       <section class="memes-gen">
@@ -38,6 +38,9 @@
             <!-- <span>middle</span> -->
             <!-- <span>right</span> -->
             <!-- <span>stroke</span> -->
+            <button onclick="onAddLine()">+</button>
+            <button onclick="onDeleteLine()">X</button>
+            <button onclick="onDeleteMeme()">delete meme</button>
             <input
               class="font-size"
               type="number"
@@ -60,35 +63,18 @@
             oninput="onChangeText(this.value)"
             placeholder="Text Here!"
           />
+          
         </div>
         <div class="socials">
           <a download="my-meme.jpg" onclick="downloadImg(this)">save</a>
-          <span>share</span>
+          <span onclick="uploadImg()">share</span>
         </div>
-        <!-- <label>
-        </label>
-        <div class="clear hover" onclick="onClearCanvas()">Clear</div>
-        <a class="Save hover" onclick="downloadImg(this)" download="my-img.jpg"
-          >Save</a>
-          <label onclick="uploadImg()">upload</label>
-          <label>
-            <span>add Text!</span>
-            <input type="text" oninput="onText(this.value)">
-          </label> -->
+       
+          
       </section>
 
       <section class="memes">
-        <img src="" class="img">
-        <div class="img"></div>
-        <div class="img"></div>
-        <div class="img"></div>
-        <div class="img"></div>
-        <div class="img"></div>
-        <div class="img"></div>
-        <div class="img"></div>
-        <div class="img"></div>
-        <div class="img"></div>
-        <div class="img"></div>
+        <!-- <h2>memes here</h2> -->
       </section>
     </main>
 

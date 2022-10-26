@@ -94,6 +94,7 @@ function renderSavedMemes() {
 
 function onEditMeme(id) {
     const meme = setCurrMeme(id)
+    renderMemeSettings()
     renderMeme(meme)
 }
 
@@ -120,6 +121,7 @@ function renderImg(img) {
 }
 
 function renderLines(lines) {
+    if(!lines.length) return
     lines.forEach(line => {
         const { pos, size, color, txt } = line
         writeText(pos.x, pos.y, size, color, txt)
@@ -146,12 +148,27 @@ function onSetColor(color) {
 function onSetFontSize(size) {
     const meme =setFontSize(size)
     renderMeme(meme)
+}
 
+function onAddLine(){
+    const meme = addLine()
+    renderMemeSettings()
+    renderMeme(meme)
+}
+function onDeleteLine(){
+    const meme = deleteLine()
+    renderMemeSettings()
+    renderMeme(meme)
 }
 
 function onSetChosenLine() {
     const meme = setChosenMeme()
-    renderMemeSettings(meme.lines[meme.selectedLineIdx])
+    renderMemeSettings()
+}
+
+function onDeleteMeme(){
+    deleteMeme()
+    renderGallery()
 }
 
 function downloadImg(elLink) {
@@ -168,15 +185,23 @@ function getCanvasImgLink() {
 
 
 
-function renderMemeSettings(line) {
+function renderMemeSettings() {
+    const {lines,selectedLineIdx} = getCurrMeme()
+    const line = lines[selectedLineIdx]
 
     const fontSize = document.querySelector('.font-size')
     const fontColor = document.querySelector('.font-color')
     const txt = document.querySelector('.meme-txt')
 
-    fontSize.value = line.size
-    fontColor.value = line.color
-    txt.value = line.txt
+    if(line){
+        fontSize.value = line.size
+        fontColor.value = line.color
+        txt.value = line.txt
+    }else{
+        fontSize.value = 40
+        fontColor.value = '#000000'
+        txt.value = ''
+    }
 
 }
 

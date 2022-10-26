@@ -131,15 +131,41 @@ function setFontSize(size) {
   return gCurrMeme
 }
 
-function setChosenMeme(){
+function setChosenMeme() {
   gCurrMeme.selectedLineIdx++
   if (gCurrMeme.selectedLineIdx === gCurrMeme.lines.length) gCurrMeme.selectedLineIdx = 0
   return gCurrMeme
 }
 
-function setMemeResult(){
+function setMemeResult() {
   gCurrMeme.result = getCanvasImgLink()
   saveMemes()
+}
+
+function addLine() {
+  const line = {
+    txt: '',
+    size: 40,
+    pos: { x: calcCenterBaseTextX('top text', 40), y: gElCanvas.height / 2 + 20 },
+    color: '#000000',
+    isDarg: false
+  }
+  gCurrMeme.lines.push(line)
+  gCurrMeme.selectedLineIdx = gCurrMeme.lines.length - 1
+  return gCurrMeme
+}
+
+function deleteLine() {
+  gCurrMeme.lines.splice(gCurrMeme.selectedLineIdx, 1)
+  gCurrMeme.selectedLineIdx = 0
+  return gCurrMeme
+}
+
+
+function deleteMeme() {
+  const idx = gMemes.findIndex(meme => meme === gCurrMeme)
+  gMemes.splice(idx, 1)
+  gCurrMeme = undefined
 }
 
 
@@ -174,6 +200,6 @@ function _createImgs() {
 }
 
 
-function saveMemes(){
+function saveMemes() {
   saveToStorage(MEMES_KEY, gMemes)
 }
