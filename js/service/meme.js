@@ -83,16 +83,16 @@ function createNewMeme(img) {
     lines: [
       {
         txt: '',
-        size: 40,
+        size: 110,
         pos: { x: calcCenterBaseTextX('top text', 40), y: 100 },
-        color: '#000000',
+        color: '#ffffff',
         drag: false
       },
       {
         txt: '',
-        size: 30,
+        size: 100,
         pos: { x: calcCenterBaseTextX('top text', 40), y: gElCanvas.height - 100 },
-        color: '#0000ff',
+        color: '#ffffff',
         drag: false
       },
     ]
@@ -104,7 +104,7 @@ function createNewMeme(img) {
 }
 
 function calcCenterBaseTextX(txt, size) {
-  const center = (gElCanvas.width / 2) - (txt.length * (size / 5))
+  const center = (gElCanvas.width / 2) - (txt.length * (size))
   return center
 }
 function calcCenterBaseTextY(txt, size) {
@@ -151,9 +151,9 @@ function setMemeResult() {
 function addLine() {
   const line = {
     txt: '',
-    size: 40,
+    size: 80,
     pos: { x: calcCenterBaseTextX('top text', 40), y: gElCanvas.height / 2 + 20 },
-    color: '#000000',
+    color: '#ffffff',
     drag: false
   }
   gCurrMeme.lines.push(line)

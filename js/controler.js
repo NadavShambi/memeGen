@@ -131,9 +131,13 @@ function renderLines(lines) {
 
 function writeText(x, y, size, color, txt) {
     if (!txt) txt = 'Text Here!'
-    gCtx.font = `${size}px Ariel`
+
+    gCtx.font = `600 ${size}px Courier New`
     gCtx.fillStyle = color
     gCtx.fillText(txt, x, y)
+    gCtx.fillStyle = '#000000'
+    gCtx.lineWidth = 3
+    gCtx.strokeText(txt, x, y)
 }
 
 function onChangeText(text) {
@@ -329,6 +333,8 @@ function isTextClicked(clickedPos, t) {
     // }
     // // return false
 
-    return (clickedPos.x >= pos.x && clickedPos.x <= pos.x + txt.length * (size / 2) &&
+    return (clickedPos.x >= pos.x && clickedPos.x <= pos.x + txt.length * (size / 1.7) &&
         clickedPos.y <= pos.y && clickedPos.y >= pos.y - size)
 }
+
+
