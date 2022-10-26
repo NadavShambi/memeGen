@@ -1,0 +1,18 @@
+.main-header{
+    background-color:var(--dark3);
+    color: var(--light3);
+}
+
+.logo{
+    font-family: pacifico, serif ;
+    font-size: 2.5rem;
+    margin-inline-start: 20px;
+}
+
+.main-nav{
+    list-style: none;
+}
+
+.main-nav li:not(:last-child){
+    margin-inline-end: 30px ;
+}

@@ -1,0 +1,38 @@
+.flex {
+    display: flex;
+}
+
+.flex.col {
+    flex-direction: column;
+}
+
+.flex.space-between {
+    justify-content: space-between;
+}
+
+.flex.align-center {
+    align-items: center;
+}
+
+.flex.justify-center {
+    justify-content: center;
+}
+
+.flex.space-around{
+    justify-content: space-around;
+}
+
+.center {
+    display: grid;
+    place-items: center;
+}
+
+.hover{
+    transition: color .5s, box-shadow .5s;
+    cursor: pointer;
+}
+
+.hover:hover{
+    color: var(--pr-clr);
+}
+

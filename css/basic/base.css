@@ -1,0 +1,14 @@
+*{
+    box-sizing: border-box;
+}
+
+html{
+    font-family: poppins , sans-serif;
+    color: var(--dark3);
+}
+
+body{
+    margin: 0;
+    background-color: var(--light3);
+}
+

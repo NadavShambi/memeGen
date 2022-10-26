@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas Paint</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="grid-container main-layout" onload="onInit()">
+    <header class="main-header flex align-center main-layout full">
+      <div class="logo">MemeGen</div>
+      <nav>
+        <ul class="main-nav flex">
+          <li class="hover" onclick="onChangeView('memes')">Memes</li>
+          <li class="hover" onclick="onChangeView('gallery')">Gallery</li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="content flex col">
+    <section class="gallery">
+      <h2>gallery here</h2>
+      </section>
+    
+      <section class="memes hide">
+        <div class="canvas-container">
+          <canvas height="450" width="450"></canvas>
+          <div class="user-choise flex col space-around"></div>
+        </div>
+
+        <div class="meme-editor flex col">
+          <div class="container">
+            <span>font family</span>
+            <span>bigger</span>
+            <span>smaller</span>
+            <span>left</span>
+            <span>middle</span>
+            <span>right</span>
+            <span>stroke</span>
+            <input type="file" name="image" onchange="onImgInp(event)" />
+          </div>
+          <input type="text" />
+        </div>
+        <!-- <label>
+        </label>
+        <div class="clear hover" onclick="onClearCanvas()">Clear</div>
+        <a class="Save hover" onclick="downloadImg(this)" download="my-img.jpg"
+          >Save</a>
+          <label onclick="uploadImg()">upload</label>
+          <label>
+            <span>add Text!</span>
+            <input type="text" oninput="onText(this.value)">
+          </label> -->
+      </section>
+
+      
+     
+    </main>
+
+    <footer class="main-footer center full">
+      <small>Pukiel &copy;</small>
+    </footer>
+    
+    <!-- MODALS -->
+ <div>
+        <p class="user-msg"></p>
+        <div class="share-container"></div>
+      </div>
+
+    <script src="js/service/utils.js"></script>
+    <script src="js/service/meme.js"></script>
+    <script src="js/controler.js"></script>
+  </body>
+</html>
