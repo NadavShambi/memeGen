@@ -67,3 +67,4 @@ body.menu-open .burger>*:not(:nth-child(even)) {
 body.menu-open .burger>*:not(:nth-child(odd)) {
     transform: translate(-50%, -50%) rotate(45deg);
 }
+

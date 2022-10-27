@@ -40,14 +40,25 @@ function uploadImg() {
     // Encode the instance of certain characters in the url
     const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
     console.log(encodedUploadedImgUrl)
-    document.querySelector('.user-msg').innerText = `Your photo is available here: ${uploadedImgUrl}`
+    
     // Create a link that on click will make a post in facebook with the image we uploaded
-    document.querySelector('.share-container').innerHTML = `
-          <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
-             Share   
-          </a>`
+    const link = `
+    <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
+    Share   
+    </a>`
+    openModal(link)
   }
   doUploadImg(imgDataUrl, onSuccess)
+}
+
+function openModal(link){
+  document.querySelector('.modal').classList.add('open')
+  document.querySelector('.user-msg').innerText = `Your photo is available here: `
+  document.querySelector('.share-container').innerHTML = link
+}
+
+function closeModal(){
+  document.querySelector('.modal').classList.remove('open')
 }
 
 function doUploadImg(imgDataUrl, onSuccess) {

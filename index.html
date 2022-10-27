@@ -136,9 +136,14 @@
     </footer>
 
     <!-- MODALS -->
-    <div>
-      <p class="user-msg"></p>
-      <div class="share-container"></div>
+    <div class="modal  full center" onclick="closeModal()">
+      <section class="main-modal flex col">
+        <button class="close-modal center" onclick="closeModal()"><ion-icon name="close-outline"></ion-icon></button>
+        <p class="share-link">
+          <span class="user-msg"></span>
+          <span class="share-container" onclick="closeModal()"></span>
+        </p>
+      </section>
     </div>
     <script
       type="module"

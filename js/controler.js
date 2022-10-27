@@ -14,6 +14,7 @@ function onInit() {
 }
 
 function onChangeView(view) {
+    closeMenu()
     const options = ['gallery-container', 'memes-gen', 'memes']
     options.forEach(op => {
         if (view === op) {
@@ -59,17 +60,17 @@ function onUploadNewImg(src) {
     renderMemeSettings(meme.lines[0])
 }
 
-function onActive(active){
-    const options = ['mem','gal']
-    options.forEach(option=>{
-        if(option === active){
+function onActive(active) {
+    const options = ['mem', 'gal']
+    options.forEach(option => {
+        if (option === active) {
             document.querySelector(`.${option}`).classList.add('active')
-        } else{
+        } else {
             document.querySelector(`.${option}`).classList.remove('active')
 
         }
     })
-    
+
 }
 
 //Gallery
@@ -77,7 +78,7 @@ function onActive(active){
 function renderGallery(filtered) {
     onChangeView('gallery-container')
     let imgs = getImgs()
-    if(filtered) imgs = filtered
+    if (filtered) imgs = filtered
     const galleryHTML = imgs.map(img => {
         const { url } = img
         return `
@@ -87,12 +88,12 @@ function renderGallery(filtered) {
     document.querySelector('.gallery').innerHTML = galleryHTML
 }
 
-function renderCategories(input=''){
+function renderCategories(input = '') {
     const categories = getFilteredCategories(input)
     const imgs = getFilteredImgs(categories)
     const datalist = document.querySelector('#category')
-    const catHTML = categories.map(cat=>{
-        return`
+    const catHTML = categories.map(cat => {
+        return `
         <option value="${cat}"></option>
         `
     }).join('')
@@ -116,6 +117,7 @@ function renderSavedMemes() {
 
 function onEditMeme(id) {
     const meme = setCurrMeme(id)
+    onChangeView('memes-gen')
     renderMemeSettings()
     renderMeme(meme)
 }
@@ -148,11 +150,11 @@ function renderLines(lines) {
     lines.forEach((line, idx) => {
         const { pos, size, color, txt } = line
         const width = writeText(pos.x, pos.y, size, color, txt)
-        updateTextWidth(idx,width)
+        updateTextWidth(idx, width)
     })
 }
 
-function writeText(x, y, size, color, txt, font='Impact') {
+function writeText(x, y, size, color, txt, font = 'Impact') {
     if (!txt) txt = 'Text Here!'
 
     gCtx.font = `600 ${size}px ${font}`
@@ -320,14 +322,67 @@ function getEvPos(ev) {
 }
 
 function isTextClicked(clickedPos, t) {
-    let { pos, size ,width} = t
-    return (clickedPos.x >= pos.x && clickedPos.x <= pos.x + width && clickedPos.y <= pos.y && clickedPos.y >= pos.y - size )
+    let { pos, size, width } = t
+    return (clickedPos.x >= pos.x && clickedPos.x <= pos.x + width && clickedPos.y <= pos.y && clickedPos.y >= pos.y - size)
 }
 
 function onMenu() {
-document.querySelector('body').classList.toggle('menu-open')
+    document.querySelector('body').classList.toggle('menu-open')
 }
 
-window.addEventListener('resize', ()=> {
+function closeMenu(){
+    document.querySelector('body').classList.remove('menu-open')
+}
+
+window.addEventListener('resize', () => {
     if (window.innerWidth > 1200) document.querySelector('body').classList.remove('menu-open')
 })
+
+function uploadImg() {
+    const imgDataUrl = gElCanvas.toDataURL("image/jpeg")
+  
+    function onSuccess(uploadedImgUrl) {
+      // Encode the instance of certain characters in the url
+      const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
+      console.log(encodedUploadedImgUrl)
+      
+      // Create a link that on click will make a post in facebook with the image we uploaded
+      const link = `
+      <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
+      Share   
+      </a>`
+      openModal(link)
+    }
+    doUploadImg(imgDataUrl, onSuccess)
+  }
+  
+  function openModal(link){
+    document.querySelector('.modal').classList.add('open')
+    document.querySelector('.user-msg').innerText = `Your photo is available here: `
+    document.querySelector('.share-container').innerHTML = link
+  }
+  
+  function closeModal(){
+    document.querySelector('.modal').classList.remove('open')
+  }
+  
+  function doUploadImg(imgDataUrl, onSuccess) {
+    // Pack the image for delivery
+    const formData = new FormData()
+    formData.append('img', imgDataUrl)
+    const XHR = new XMLHttpRequest()
+    XHR.onreadystatechange = () => {
+   
+      if (XHR.readyState !== XMLHttpRequest.DONE) return
+      if (XHR.status !== 200) return console.error('Error uploading image')
+      const { responseText: url } = XHR
+  
+      console.log('Got back live url:', url)
+      onSuccess(url)
+    }
+    XHR.onerror = (req, ev) => {
+      console.error('Error connecting to server with request:', req, '\nGot response data:', ev)
+    }
+    XHR.open('POST', '//ca-upload.com/here/upload.php')
+    XHR.send(formData)
+  }
