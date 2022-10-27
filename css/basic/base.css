@@ -10,7 +10,7 @@ html{
 body{
     margin: 0;
     background-color: var(--light3);
-
+    min-height: 100vh;
 }
 
 img{

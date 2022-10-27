@@ -1,4 +1,6 @@
 .main-footer{
     background-color:var(--dark3);
     color: var(--light3);
+    margin-top: auto;
 }
+

@@ -14,6 +14,7 @@
     border-radius: 13px 13px 0 0;
 }
 
+
 .gallery {
     grid-auto-rows: auto;
     grid-auto-flow: dense;
@@ -29,3 +30,6 @@
     grid-row: span 1;
 }
 
+.memes{
+    width: calc(var(--m) - 20px);
+}

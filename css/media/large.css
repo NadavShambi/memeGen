@@ -53,3 +53,6 @@
     width: 130px;
     background-color: transparent;
 }
+.memes{
+    width: calc(var(--l) - 20px);
+}

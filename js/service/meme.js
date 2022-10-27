@@ -33,54 +33,7 @@ function setCurrMeme(id) {
   return gCurrMeme
 }
 
-function uploadImg() {
-  const imgDataUrl = gElCanvas.toDataURL("image/jpeg")
 
-  function onSuccess(uploadedImgUrl) {
-    // Encode the instance of certain characters in the url
-    const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
-    console.log(encodedUploadedImgUrl)
-    
-    // Create a link that on click will make a post in facebook with the image we uploaded
-    const link = `
-    <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
-    Share   
-    </a>`
-    openModal(link)
-  }
-  doUploadImg(imgDataUrl, onSuccess)
-}
-
-function openModal(link){
-  document.querySelector('.modal').classList.add('open')
-  document.querySelector('.user-msg').innerText = `Your photo is available here: `
-  document.querySelector('.share-container').innerHTML = link
-}
-
-function closeModal(){
-  document.querySelector('.modal').classList.remove('open')
-}
-
-function doUploadImg(imgDataUrl, onSuccess) {
-  // Pack the image for delivery
-  const formData = new FormData()
-  formData.append('img', imgDataUrl)
-  const XHR = new XMLHttpRequest()
-  XHR.onreadystatechange = () => {
- 
-    if (XHR.readyState !== XMLHttpRequest.DONE) return
-    if (XHR.status !== 200) return console.error('Error uploading image')
-    const { responseText: url } = XHR
-
-    console.log('Got back live url:', url)
-    onSuccess(url)
-  }
-  XHR.onerror = (req, ev) => {
-    console.error('Error connecting to server with request:', req, '\nGot response data:', ev)
-  }
-  XHR.open('POST', '//ca-upload.com/here/upload.php')
-  XHR.send(formData)
-}
 
 function createNewMeme(img) {
 
