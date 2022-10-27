@@ -33,3 +33,8 @@
 .memes{
     width: calc(var(--m) - 20px);
 }
+
+.logo{
+    margin-inline-start: 0;
+
+}

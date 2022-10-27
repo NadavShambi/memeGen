@@ -23,6 +23,7 @@ function getFilteredImgs(categories){
 function getImgs() {
   return gImgs
 }
+
 function getMemes() {
   return gMemes
 }
@@ -32,8 +33,6 @@ function setCurrMeme(id) {
   gCurrMeme = meme
   return gCurrMeme
 }
-
-
 
 function createNewMeme(img) {
 
@@ -141,6 +140,7 @@ function alignLeft() {
   gCurrMeme.lines[gCurrMeme.selectedLineIdx].pos.x = 20
   return gCurrMeme
 }
+
 function alignRight() {
   gCurrMeme.lines[gCurrMeme.selectedLineIdx].pos.x = gElCanvas.width - (gCurrMeme.lines[gCurrMeme.selectedLineIdx].width + 20)
   return gCurrMeme
@@ -151,6 +151,7 @@ function alignCenter() {
   return gCurrMeme
 
 }
+
 function createCategories() {
 
   const categories = []

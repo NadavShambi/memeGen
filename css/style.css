@@ -7,7 +7,9 @@
 @import './component/memegen.css';
 @import './component/footer.css';
 @import './component/modal.css';
-@import './media/medium.css' (min-width:800px);
+@import './media/medium.css' (min-width:850px);
 @import './media/large.css' (min-width:1220px);
+@import './media/XL.css' (min-width:1620px);
+@import './media/XXL.css' (min-width:2220px);
 @import './basic/last.css';
 

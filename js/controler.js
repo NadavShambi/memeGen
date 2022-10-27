@@ -104,7 +104,6 @@ function renderCategories(input = '') {
 
 function renderSavedMemes() {
     const memes = getMemes()
-    // console.log(memes);
     const memesHTML = memes.map(meme => {
         return `
         <img src="${meme.result}" class="img" onclick="onEditMeme('${meme.id}')">
@@ -258,6 +257,7 @@ function getImgElement(src) {
 function addListeners() {
     addMouseListeners()
     addTouchListeners()
+    addWindowListeners()
 }
 
 function addMouseListeners() {
@@ -270,6 +270,12 @@ function addTouchListeners() {
     gElCanvas.addEventListener('touchmove', onMove)
     gElCanvas.addEventListener('touchstart', onDown)
     gElCanvas.addEventListener('touchend', onUp)
+}
+
+function addWindowListeners(){
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 1200) document.querySelector('body').classList.remove('menu-open')
+    })
 }
 
 function onDown(ev) {
@@ -335,9 +341,7 @@ function closeMenu(){
     document.querySelector('body').classList.remove('menu-open')
 }
 
-window.addEventListener('resize', () => {
-    if (window.innerWidth > 1200) document.querySelector('body').classList.remove('menu-open')
-})
+
 
 function uploadImg() {
     const imgDataUrl = gElCanvas.toDataURL("image/jpeg")
