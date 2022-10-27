@@ -8,21 +8,34 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body class="grid-container main-layout" onload="onInit()">
-    <header class="main-header  main-layout full">
+    <header class="main-header main-layout full">
       <section class="main-header flex space-between align-center">
-
-        <div class="logo">MemeGen</div>
+        <div class="logo hover" onclick="onChangeView('gallery-container');onActive('gal')">MemeGen</div>
         <nav>
           <ul class="main-nav flex">
-            <li class="hover" onclick="onChangeView('memes')">Memes</li>
-            <li class="hover" onclick="onChangeView('gallery-container')">Gallery</li>
+            <li
+              class="mem center hover"
+              onclick="onChangeView('memes');onActive('mem')"
+            >
+              Memes
+            </li>
+            <li
+              class="gal center hover active"
+              onclick="onChangeView('gallery-container');onActive('gal')"
+            >
+              Gallery
+            </li>
           </ul>
         </nav>
+        <div class="burger" onclick="onMenu()">
+          <span style="--i: -1"></span>
+          <span style="--i: 0"></span>
+          <span style="--i: 1"></span>
+        </div>
       </section>
     </header>
 
     <main class="content flex col">
-
       <div class="gallery-container">
         <div class="upload flex col align-center">
           <label>
@@ -31,10 +44,18 @@
             <input type="file" name="image" onchange="onImgInp(event)" />
           </label>
         </div>
-         <section class="gallery">
-      </section>
+        <div class="search-container">
+          <label class="flex">
+            <h2>Search By Category:</h2>
+            <input name="category" list="category" class="search" type="text" oninput=" renderCategories(this.value)"/>
+          </label>
+        </div>
+        <datalist id="category">
+         
+        </datalist>
+
+        <section class="gallery"></section>
       </div>
-     
 
       <section class="memes-gen">
         <div class="canvas-container">
@@ -46,11 +67,10 @@
           <!-- <span>font family</span> -->
           <!-- <span>bigger</span> -->
           <!-- <span>smaller</span> -->
-          <!-- <span>left</span> -->
-          <!-- <span>middle</span> -->
-          <!-- <span>right</span> -->
           <!-- <span>stroke</span> -->
-          <button class="del-meme center" onclick="onDeleteMeme()">Delete Meme</button>
+          <button class="del-meme center" onclick="onDeleteMeme()">
+            Delete Meme
+          </button>
           <div class="flex">
             <div class="line-controls flex">
               <button class="center" onclick="onAddLine()">
@@ -59,14 +79,19 @@
               <button class="center" onclick="onDeleteLine()">
                 <ion-icon name="close-outline"></ion-icon>
               </button>
-              <button class="center" onclick="onSetChosenLine()" >
+              <button class="center" onclick="onSetChosenLine()">
                 <ion-icon name="swap-vertical-outline"></ion-icon>
               </button>
-                <button class="center" onclick="onAlignLeft()"><img src="./icon/align-to-left.png" alt=""></button>
-                <button class="center" onclick="onAlignCenter()"><img src="./icon/center-text-alignment.png" alt=""></button>
-                <button class="center" onclick="onAlignRight()"><img src="./icon/align-to-right.png" alt=""></button>
+              <button class="center" onclick="onAlignLeft()">
+                <img src="./icon/align-to-left.png" alt="" />
+              </button>
+              <button class="center" onclick="onAlignCenter()">
+                <img src="./icon/center-text-alignment.png" alt="" />
+              </button>
+              <button class="center" onclick="onAlignRight()">
+                <img src="./icon/align-to-right.png" alt="" />
+              </button>
             </div>
-           
           </div>
           <div class="text-controls flex">
             <input
@@ -90,12 +115,11 @@
                 oninput="onSetFontSize(this.value)"
               />
             </div>
-           
           </div>
 
           <div class="socials flex space-around">
-            <button onclick="uploadImg()">share</button>
-            <button>
+            <button class="hover" onclick="uploadImg()">share</button>
+            <button class="hover">
               <a download="my-meme.jpg" onclick="downloadImg(this)">save</a>
             </button>
           </div>

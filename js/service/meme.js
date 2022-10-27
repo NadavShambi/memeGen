@@ -3,15 +3,22 @@
 const IMAGES_KEY = 'imagesDB'
 const MEMES_KEY = 'memeDB'
 
-// var gKeywordSearchCountMap = { 'funny': 12, 'cat': 16, 'baby': 2 }
-
 var gImgs = loadFromStorage(IMAGES_KEY) || _createImgs()
-
 var gMemes = loadFromStorage(MEMES_KEY) || []
-
 var gCurrMeme
-// MVC IMGS
+var gCategories = createCategories()
 
+function getFilteredCategories(txt=''){
+  const categories = gCategories.filter(c=>c.includes(txt))
+  return categories
+}
+
+function getFilteredImgs(categories){
+  const imgs = gImgs.filter(img=>{
+    return img.keywords.some(key=>categories.includes(key))
+  })
+  return imgs
+}
 
 function getImgs() {
   return gImgs
@@ -27,9 +34,8 @@ function setCurrMeme(id) {
 }
 
 function uploadImg() {
-  const imgDataUrl = gElCanvas.toDataURL("image/jpeg")// Gets the canvas content as an image format
+  const imgDataUrl = gElCanvas.toDataURL("image/jpeg")
 
-  // A function to be called if request succeeds
   function onSuccess(uploadedImgUrl) {
     // Encode the instance of certain characters in the url
     const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
@@ -41,7 +47,6 @@ function uploadImg() {
              Share   
           </a>`
   }
-  // Send the image to the server
   doUploadImg(imgDataUrl, onSuccess)
 }
 
@@ -49,20 +54,13 @@ function doUploadImg(imgDataUrl, onSuccess) {
   // Pack the image for delivery
   const formData = new FormData()
   formData.append('img', imgDataUrl)
-
-  // Send a post req with the image to the server
   const XHR = new XMLHttpRequest()
   XHR.onreadystatechange = () => {
-    // If the request is not done, we have no business here yet, so return
+ 
     if (XHR.readyState !== XMLHttpRequest.DONE) return
-    // if the response is not ok, show an error
     if (XHR.status !== 200) return console.error('Error uploading image')
     const { responseText: url } = XHR
-    // Same as:
-    // const url = XHR.responseText
 
-    // If the response is ok, call the onSuccess callback function, 
-    // that will create the link to facebook using the url we got
     console.log('Got back live url:', url)
     onSuccess(url)
   }
@@ -72,7 +70,6 @@ function doUploadImg(imgDataUrl, onSuccess) {
   XHR.open('POST', '//ca-upload.com/here/upload.php')
   XHR.send(formData)
 }
-
 
 function createNewMeme(img) {
 
@@ -111,7 +108,7 @@ function updateTextWidth(idx, width) {
 }
 
 function calcCenterBaseWidthX(width) {
-  const center = (gElCanvas.width / 2) - (width/3)
+  const center = (gElCanvas.width / 2) - (width / 3)
   return center
 }
 
@@ -170,7 +167,6 @@ function deleteLine() {
   return gCurrMeme
 }
 
-
 function deleteMeme() {
   const idx = gMemes.findIndex(meme => meme === gCurrMeme)
   gMemes.splice(idx, 1)
@@ -191,42 +187,53 @@ function alignCenter() {
   return gCurrMeme
 
 }
+function createCategories() {
+
+  const categories = []
+  gImgs.forEach(img => {
+    img.keywords.forEach(word => {
+      const isDup = categories.includes(word)
+      if (!isDup) {
+        categories.push(word)
+      }
+    })
+  })
+  return categories
+}
 
 function _createImgs() {
   return [
-    { id: 1, url: './img/1.jpg', keywords: ['funny', 'man'] },
-    { id: 2, url: './img/2.jpg', keywords: ['funny', 'dog'] },
-    { id: 3, url: './img/3.jpg', keywords: ['funny', 'dog', 'baby'] },
-    { id: 4, url: './img/4.jpg', keywords: ['funny', 'cat'] },
-    { id: 5, url: './img/5.jpg', keywords: ['funny', 'baby'] },
-    { id: 6, url: './img/6.jpg', keywords: ['funny', 'man'] },
-    { id: 7, url: './img/7.jpg', keywords: ['funny', 'baby'] },
-    { id: 8, url: './img/8.jpg', keywords: ['funny', 'man'] },
-    { id: 9, url: './img/9.jpg', keywords: ['funny', 'baby'] },
-    { id: 10, url: './img/10.jpg', keywords: ['funny', 'man'] },
-    { id: 11, url: './img/11.jpg', keywords: ['funny', 'man'] },
-    { id: 12, url: './img/12.jpg', keywords: ['funny', 'man'] },
-    { id: 13, url: './img/13.jpg', keywords: ['funny', 'man'] },
-    { id: 14, url: './img/14.jpg', keywords: ['funny', 'man'] },
-    { id: 15, url: './img/15.jpg', keywords: ['funny', 'man'] },
-    { id: 16, url: './img/16.jpg', keywords: ['funny', 'man'] },
-    { id: 17, url: './img/17.jpg', keywords: ['funny', 'man'] },
+    { id: 1, url: './img/1.jpg', keywords: ['funny', 'woman', 'mountains'] },
+    { id: 2, url: './img/2.jpg', keywords: ['funny', 'man', 'politics'] },
+    { id: 3, url: './img/3.jpg', keywords: ['funny', 'dog', 'pet', 'cute'] },
+    { id: 4, url: './img/4.jpg', keywords: ['funny', 'baby', 'cute'] },
+    { id: 5, url: './img/5.jpg', keywords: ['funny', 'baby', 'dog', 'pet', 'cute'] },
+    { id: 6, url: './img/6.jpg', keywords: ['funny', 'cat', 'pet', 'cute'] },
+    { id: 7, url: './img/7.jpg', keywords: ['funny', 'man', 'movies'] },
+    { id: 8, url: './img/8.jpg', keywords: ['funny', 'baby', 'LOL'] },
+    { id: 9, url: './img/9.jpg', keywords: ['funny', 'man', 'point'] },
+    { id: 10, url: './img/10.jpg', keywords: ['funny', 'man', 'WTF'] },
+    { id: 11, url: './img/11.jpg', keywords: ['funny', 'man', 'moveis', 'LOL'] },
+    { id: 12, url: './img/12.jpg', keywords: ['funny', 'man', 'movies'] },
+    { id: 13, url: './img/13.jpg', keywords: ['funny', 'baby', 'dance', 'LOL'] },
+    { id: 14, url: './img/14.jpg', keywords: ['funny', 'man', 'politics'] },
+    { id: 15, url: './img/15.jpg', keywords: ['funny', 'baby', 'cute'] },
+    { id: 16, url: './img/16.jpg', keywords: ['funny', 'dog', 'pet', 'cute'] },
+    { id: 17, url: './img/17.jpg', keywords: ['funny', 'man', 'politics'] },
     { id: 18, url: './img/18.jpg', keywords: ['funny', 'man'] },
-    { id: 19, url: './img/19.jpg', keywords: ['funny', 'man'] },
-    { id: 20, url: './img/20.jpg', keywords: ['funny', 'man'] },
-    { id: 21, url: './img/21.jpg', keywords: ['funny', 'man'] },
-    { id: 22, url: './img/22.jpg', keywords: ['funny', 'woman'] },
-    { id: 23, url: './img/23.jpg', keywords: ['funny', 'man'] },
-    { id: 24, url: './img/24.jpg', keywords: ['funny', 'man'] },
-    { id: 25, url: './img/25.jpg', keywords: ['funny', 'man'] },
+    { id: 19, url: './img/19.jpg', keywords: ['funny', 'man', 'movies', 'Cheers'] },
+    { id: 20, url: './img/20.jpg', keywords: ['funny', 'man', 'movies'] },
+    { id: 21, url: './img/21.jpg', keywords: ['funny', 'man', 'movies'] },
+    { id: 22, url: './img/22.jpg', keywords: ['funny', 'woman', 'movies'] },
+    { id: 23, url: './img/23.jpg', keywords: ['funny', 'man', 'movies'] },
+    { id: 24, url: './img/24.jpg', keywords: ['funny', 'man', 'politics'] },
+    { id: 25, url: './img/25.jpg', keywords: ['funny', 'man', 'movies'] },
   ]
 }
-
 
 function saveMemes() {
   saveToStorage(MEMES_KEY, gMemes)
 }
-
 
 function moveText(dx, dy) {
   gCurrMeme.lines[gCurrMeme.selectedLineIdx].pos.x += dx

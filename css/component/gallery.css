@@ -1,0 +1,52 @@
+.upload{
+    margin-block: 20px;
+    border: 4px dotted #333;
+}
+.upload,
+.upload *{
+    cursor: pointer;
+}
+
+.upload input{
+    display: none;
+}
+
+.upload h1{
+    text-align: center;
+    font-size: 60px;
+}
+
+.search-container {
+    margin-bottom: 10px;
+}
+
+.search-container h2{
+    font-size: 1.1em;
+    margin-inline-start: 5px;
+}
+
+.search-container .search{
+    border: none;
+    margin-inline-start: 10px;
+    background-color: transparent;
+    border-bottom: 2px solid var(--dark3);
+    outline: none;
+}
+
+.gallery{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(200px, 1fr));
+    gap: 25px;
+}
+
+.gallery>*{
+    border-radius: 13px;
+    box-shadow: var(--box-shadow);
+
+    transition: transform .5s;
+    cursor: pointer;
+}
+
+.gallery>img:hover{
+    transform: scale(1.1);
+}

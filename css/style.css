@@ -3,9 +3,10 @@
 @import './basic/helper.css';
 @import './component/header.css';
 @import './component/main.css';
+@import './component/gallery.css';
 @import './component/memegen.css';
 @import './component/footer.css';
 @import './component/modal.css';
-@import './media/medium.css' (min-width:780px);
-@import './media/large.css' (min-width:1200px);
+@import './media/medium.css' (min-width:800px);
+@import './media/large.css' (min-width:1220px);
 @import './basic/last.css';

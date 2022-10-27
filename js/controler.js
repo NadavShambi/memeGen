@@ -1,6 +1,3 @@
-// const width = gCtx.measureText(txt).width
-
-
 let gElCanvas
 let gCtx
 let gLastPos
@@ -12,6 +9,7 @@ function onInit() {
     gCtx = gElCanvas.getContext('2d')
     // resizeCanvas()
     renderGallery()
+    renderCategories()
     addListeners()
 }
 
@@ -39,26 +37,20 @@ function resizeCanvas(imgH, imgW) {
 
 function onImgInp(ev) {
     loadImageFromInput(ev, onUploadNewImg)
-    // console.log('ev:', ev)
-    // console.log(ev.target);
 }
 
-// CallBack func will run on success load of the img
 function loadImageFromInput(ev, onImageReady) {
     const reader = new FileReader()
-    // After we read the file
     console.log('reader:', reader)
 
     reader.onload = function (event) {
-        let img = new Image() // Create a new html img element
-        img.src = event.target.result // Set the img src to the img file we read
-        // Run the callBack func, To render the img on the canvas
+        let img = new Image()
+        img.src = event.target.result
         img.onload = onImageReady.bind(null, img.src)
-        // Can also do it this way:
-        // img.onload = () => onImageReady(img)
+
     }
     console.log('ev.target.files[0]:', ev.target.files[0])
-    reader.readAsDataURL(ev.target.files[0]) // Read the file we picked
+    reader.readAsDataURL(ev.target.files[0])
 }
 
 function onUploadNewImg(src) {
@@ -67,19 +59,45 @@ function onUploadNewImg(src) {
     renderMemeSettings(meme.lines[0])
 }
 
+function onActive(active){
+    const options = ['mem','gal']
+    options.forEach(option=>{
+        if(option === active){
+            document.querySelector(`.${option}`).classList.add('active')
+        } else{
+            document.querySelector(`.${option}`).classList.remove('active')
+
+        }
+    })
+    
+}
 
 //Gallery
 
-function renderGallery() {
+function renderGallery(filtered) {
     onChangeView('gallery-container')
-    const imgs = getImgs()
+    let imgs = getImgs()
+    if(filtered) imgs = filtered
     const galleryHTML = imgs.map(img => {
         const { url } = img
         return `
-      <img src="${url}" onclick="onStartNewMeme(event)">
+      <img src="${url}" onclick="onStartNewMeme(event);onActive()">
         `
     }).join('')
     document.querySelector('.gallery').innerHTML = galleryHTML
+}
+
+function renderCategories(input=''){
+    const categories = getFilteredCategories(input)
+    const imgs = getFilteredImgs(categories)
+    const datalist = document.querySelector('#category')
+    const catHTML = categories.map(cat=>{
+        return`
+        <option value="${cat}"></option>
+        `
+    }).join('')
+    datalist.innerHTML = catHTML
+    renderGallery(imgs)
 }
 
 function renderSavedMemes() {
@@ -189,15 +207,10 @@ function onAlignCenter() {
     renderMeme(meme)
 }
 
-
 function onDeleteMeme() {
     deleteMeme()
     renderGallery()
 }
-
-
-
-
 
 function downloadImg(elLink) {
     // image/jpeg the default format
@@ -237,17 +250,11 @@ function getImgElement(src) {
     return img
 }
 
-
-
-
 // drag and drop
-
 
 function addListeners() {
     addMouseListeners()
     addTouchListeners()
-    //Listen for resize ev 
-
 }
 
 function addMouseListeners() {
@@ -263,32 +270,20 @@ function addTouchListeners() {
 }
 
 function onDown(ev) {
-    // console.log('Im from onDown')
-    //Get the ev pos from mouse or touch
-    // console.log(ev);
     const pos = getEvPos(ev)
-    // console.log('pos',pos);
     const meme = getCurrMeme()
     meme.lines.forEach((t, idx) => {
-        // console.log(isTextClicked(pos, t),t);
         if (!isTextClicked(pos, t)) return
         setChosenLine(idx)
         renderMemeSettings()
         setTextDrag(true, idx)
         gElCanvas.style.cursor = 'grabbing'
     })
-    // console.log(ev);
-    //Save the pos we start from 
     gStartPos = pos
-
 }
 
 function onMove(ev) {
-    // console.log('Im from onMove')
-    // const { isDrag } = getText()
-
     const meme = getCurrMeme()
-
     meme.lines.forEach(line => {
         if (!line.drag) return
         const pos = getEvPos(ev)
@@ -298,40 +293,24 @@ function onMove(ev) {
         gStartPos = pos
     })
     renderMeme(meme)
-    //Calc the delta , the diff we moved
-    //Save the last pos , we remember where we`ve been and move accordingly
-    //The canvas is render again after every move
-
 }
 
 function onUp() {
-    // console.log('Im from onUp')
-    // console.log('clicked! UPPPP');
-
     const meme = getCurrMeme()
     meme.lines.forEach((line, idx) => {
         setTextDrag(false, idx)
     })
     gElCanvas.style.cursor = 'grab'
-
-
 }
 
-
 function getEvPos(ev) {
-
-    //Gets the offset pos , the default pos
     let pos = {
         x: ev.offsetX,
         y: ev.offsetY
     }
-    // Check if its a touch ev
     if (TOUCH_EVS.includes(ev.type)) {
-        //soo we will not trigger the mouse ev
         ev.preventDefault()
-        //Gets the first touch point
         ev = ev.changedTouches[0]
-        //Calc the right pos according to the touch screen
         pos = {
             x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
             y: ev.pageY - ev.target.offsetTop - ev.target.clientTop
@@ -340,10 +319,15 @@ function getEvPos(ev) {
     return pos
 }
 
-
 function isTextClicked(clickedPos, t) {
     let { pos, size ,width} = t
     return (clickedPos.x >= pos.x && clickedPos.x <= pos.x + width && clickedPos.y <= pos.y && clickedPos.y >= pos.y - size )
 }
 
+function onMenu() {
+document.querySelector('body').classList.toggle('menu-open')
+}
 
+window.addEventListener('resize', ()=> {
+    if (window.innerWidth > 1200) document.querySelector('body').classList.remove('menu-open')
+})

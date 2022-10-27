@@ -33,3 +33,23 @@
     grid-column: span 2;
     grid-row: span 1;
 }
+
+
+.burger {
+    display: none;
+}
+
+.main-nav {
+    flex-direction: row;
+    position: relative;
+    overflow: visible;
+    height: 130px;
+    top: 0;
+
+}
+
+.main-nav>* {
+    height: 130px;
+    width: 130px;
+    background-color: transparent;
+}

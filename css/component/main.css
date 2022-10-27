@@ -1,38 +1,6 @@
 main{
     margin-block: 20px;
 }
-.gallery{
-    display: grid;
-    grid-template-columns: repeat(auto-fill,minmax(200px, 1fr));
-    gap: 25px;
-}
-
-
-.gallery>*{
-    border-radius: 13px;
-    box-shadow: var(--box-shadow);
-
-    transition: transform .5s;
-    cursor: pointer;
-}
-
-.gallery>img:hover{
-    transform: scale(1.1);
-}
-
-.upload{
-    margin-block: 20px;
-    border: 4px dotted #333;
-}
-.upload input{
-    display: none;
-}
-
-.upload h1{
-    text-align: center;
-    font-size: 60px;
-}
-
 .memes{
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax(200px, 1fr));
