@@ -53,3 +53,9 @@
 .memes{
     width: calc(var(--l) - 20px);
 }
+
+.emojis {
+   
+    margin-block-start: 30px;
+ 
+}

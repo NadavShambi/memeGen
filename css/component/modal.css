@@ -40,6 +40,11 @@ width: 100vw;
     top: 5%;
     right: 5%;
 }
+.close-modal:hover{
+    top: 5%;
+    box-shadow: 1px 1px #eee2, inset 1.5px 2px #eee2;
+    right: 5%;
+}
 .share-link{
     align-self: center;
 }

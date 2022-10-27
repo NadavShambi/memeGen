@@ -110,9 +110,9 @@ function setMemeResult() {
   saveMemes()
 }
 
-function addLine() {
+function addLine(txt='') {
   const line = {
-    txt: '',
+    txt,
     size: 80,
     pos: { x: calcCenterBaseWidthX(360.05859375), y: gElCanvas.height / 2 + 20 },
     color: '#ffffff',
@@ -207,5 +207,4 @@ function moveText(dx, dy) {
 
 function setTextDrag(isDrag, idx) {
   gCurrMeme.lines[idx].drag = isDrag
-
 }

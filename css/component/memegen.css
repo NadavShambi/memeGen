@@ -1,16 +1,12 @@
 .meme-editor {
-    /* box-shadow: inset 0 0 3px var(--dark1); */
     padding: 10px 20px;
-    /* gap: 5px; */
     background: linear-gradient(#3338, #3335);
-   
     overflow: hidden;
 }
 
 .canvas-container {
     width: 100%;
     padding: 20px;
-    background: linear-gradient(#3338, #3335);
 
 }
 
@@ -25,11 +21,13 @@ canvas {
 .line-controls>* {
     padding: 10px 20px;
 }
-.line-controls>*:first-child{
-    border-top-left-radius:var(--border-radius) ;
+
+.line-controls>*:first-child {
+    border-top-left-radius: var(--border-radius);
 }
-.line-controls>*:last-child{
-    border-top-right-radius:var(--border-radius) ;
+
+.line-controls>*:last-child {
+    border-top-right-radius: var(--border-radius);
 }
 
 .line-controls>* {
@@ -71,23 +69,73 @@ canvas {
 }
 
 .text-dec>* {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     font-size: 1em;
     border: none;
     box-shadow: inset 0 0 1px var(--dark1);
     overflow: hidden;
+    position: relative;
+    background-color: var(--light3);
+    cursor: pointer;
 }
 
-.text-dec>*:first-child{
+.text-dec>*>img {
+    padding: 3px;
+}
+
+.text-dec>*>input {
+    visibility: hidden;
+    height: 0;
+    width: 0;
+}
+
+.text-dec>*:first-child {
     border-top-right-radius: var(--border-radius);
 }
-.text-dec>*:last-child{
+
+.text-dec>*:last-child {
     border-bottom-right-radius: var(--border-radius);
     padding-inline-start: 5px;
 }
 
-.socials{
+.socials {
     margin-top: 10px;
 }
 
+.emojis {
+    overflow-x: scroll;
+    max-width: 800px;
+    margin-block-start: 20px;
+    padding: 3px;
+    box-shadow: inset 0 0 3px var(--dark3);
+    border-radius: 10px;
+}
+
+.emojis::-webkit-scrollbar {
+    width: 20px;
+}
+
+.emojis::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 0 1px var(--dark3);
+    background-color: var(--light3);
+    border-radius: 10px;
+}
+
+.emojis::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: inset 0 0 15px var(--dark3);
+}
+
+.emojis>* {
+    height: 80px;
+    width: 80px;
+    font-size: 3em;
+    padding-inline: 8px;
+    user-select: none;
+    cursor: pointer;
+}
+
+.emojis>*:not(:first-child) {
+    border-left: 1px solid var(--dark1);
+}

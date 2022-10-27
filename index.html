@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MemeGen</title>
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="shortcut icon" href="./favicon-meme.ico" type="image/x-icon">
   </head>
   <body class="main-layout flex col" onload="onInit()">
     <header class="main-header main-layout full">
@@ -101,11 +102,15 @@
               placeholder="Text Here!"
             />
             <div class="text-dec flex col align-center">
-              <input
-                class="font-color"
-                type="color"
-                oninput="onSetColor(this.value)"
-              />
+              <label class="center">
+                <img src="./icon/paint.png" alt="">
+                <input
+                  class="font-color"
+                  type="color"
+                  oninput="onSetColor(this.value)"
+                  
+                />
+              </label>
               <input
                 class="font-size"
                 type="number"
@@ -116,7 +121,49 @@
               />
             </div>
           </div>
-
+          <div class="emojis flex">
+          <div class="center" onclick="onAddEmoji(this)">😎</div>
+          <div class="center" onclick="onAddEmoji(this)">😍</div>
+          <div class="center" onclick="onAddEmoji(this)">⭐</div>
+          <div class="center" onclick="onAddEmoji(this)">🦶</div>
+          <div class="center" onclick="onAddEmoji(this)">🧆</div>
+          <div class="center" onclick="onAddEmoji(this)">💖</div>
+          <div class="center" onclick="onAddEmoji(this)">💧</div>
+          <div class="center" onclick="onAddEmoji(this)">💯</div>
+          <div class="center" onclick="onAddEmoji(this)">😈</div>
+          <div class="center" onclick="onAddEmoji(this)">🐵</div>
+          <div class="center" onclick="onAddEmoji(this)">🥇</div>
+          <div class="center" onclick="onAddEmoji(this)">🙌</div>
+          <div class="center" onclick="onAddEmoji(this)">👻</div>
+          <div class="center" onclick="onAddEmoji(this)">🍒</div>
+          <div class="center" onclick="onAddEmoji(this)">✌</div>
+          <div class="center" onclick="onAddEmoji(this)">🌹</div>
+          <div class="center" onclick="onAddEmoji(this)">👑</div>
+          <div class="center" onclick="onAddEmoji(this)">🎶</div>
+          <div class="center" onclick="onAddEmoji(this)">🚩</div>
+          <div class="center" onclick="onAddEmoji(this)">🎁</div>
+          <div class="center" onclick="onAddEmoji(this)">💋</div>
+          <div class="center" onclick="onAddEmoji(this)">🍕</div>
+          <div class="center" onclick="onAddEmoji(this)">👌</div>
+          <div class="center" onclick="onAddEmoji(this)">😴</div>
+          <div class="center" onclick="onAddEmoji(this)">🤑</div>
+          <div class="center" onclick="onAddEmoji(this)">🤡</div>
+          <div class="center" onclick="onAddEmoji(this)">💩</div>
+          <div class="center" onclick="onAddEmoji(this)">👽</div>
+          <div class="center" onclick="onAddEmoji(this)">🐼</div>
+          <div class="center" onclick="onAddEmoji(this)">👓</div>
+          <div class="center" onclick="onAddEmoji(this)">💎</div>
+          <div class="center" onclick="onAddEmoji(this)">💣</div>
+          <div class="center" onclick="onAddEmoji(this)">🎇</div>
+          <div class="center" onclick="onAddEmoji(this)">🎃</div>
+          <div class="center" onclick="onAddEmoji(this)">🎱</div>
+          <div class="center" onclick="onAddEmoji(this)">🍌</div>
+          <div class="center" onclick="onAddEmoji(this)">🐱</div>
+          <div class="center" onclick="onAddEmoji(this)">🎮</div>
+          <div class="center" onclick="onAddEmoji(this)">🍨</div>
+          <div class="center" onclick="onAddEmoji(this)">🍄</div>
+          <div class="center" onclick="onAddEmoji(this)">🍁</div>
+          </div>
           <div class="socials flex space-around">
             <button class="hover" onclick="uploadImg()">share</button>
             <button class="hover">

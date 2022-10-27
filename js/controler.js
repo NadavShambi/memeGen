@@ -1,6 +1,5 @@
 let gElCanvas
 let gCtx
-let gLastPos
 
 const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
 
@@ -68,7 +67,6 @@ function onActive(active) {
             document.querySelector(`.${option}`).classList.add('active')
         } else {
             document.querySelector(`.${option}`).classList.remove('active')
-
         }
     })
 
@@ -117,9 +115,11 @@ function renderSavedMemes() {
 
 function onEditMeme(id) {
     const meme = setCurrMeme(id)
+    const img = getImgElement(meme.img)
     onChangeView('memes-gen')
     renderMemeSettings()
     renderMeme(meme)
+    resizeCanvas(img.height, img.width)
 }
 
 function onStartNewMeme(ev) {
@@ -183,6 +183,11 @@ function onSetFontSize(size) {
 
 function onAddLine() {
     const meme = addLine()
+    renderMemeSettings()
+    renderMeme(meme)
+}
+function onAddEmoji(txt){
+    const meme = addLine(txt.innerText)
     renderMemeSettings()
     renderMeme(meme)
 }
@@ -276,13 +281,14 @@ function addWindowListeners(){
     window.addEventListener('resize', () => {
         if (window.innerWidth > 1200) document.querySelector('body').classList.remove('menu-open')
     })
+
 }
 
 function onDown(ev) {
     const pos = getEvPos(ev)
     const meme = getCurrMeme()
-    meme.lines.forEach((t, idx) => {
-        if (!isTextClicked(pos, t)) return
+    meme.lines.forEach((l, idx) => {
+        if (!isTextClicked(pos, l)) return
         setChosenLine(idx)
         renderMemeSettings()
         setTextDrag(true, idx)

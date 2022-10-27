@@ -6,8 +6,7 @@
 }
 
 .meme-editor {
-    background: linear-gradient(#3338, #3335);
-    border-radius: 0 0 13px 13px;
+    border-radius: 13px;
 }
 
 .canvas-container {
