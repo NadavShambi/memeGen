@@ -10,7 +10,7 @@ const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
 function onInit() {
     gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
-    resizeCanvas()
+    // resizeCanvas()
     renderGallery()
     addListeners()
 }
@@ -28,20 +28,19 @@ function onChangeView(view) {
     if (view === 'memes') renderSavedMemes()
 }
 
-function resizeCanvas() {
+function resizeCanvas(imgH, imgW) {
     const elContainer = document.querySelector('.canvas-container')
     gElCanvas.width = elContainer.offsetWidth
-    gElCanvas.height = elContainer.offsetHeight
+    gElCanvas.height = imgH * gElCanvas.width / imgW
 }
 
 
 //UPLOAD
 
 function onImgInp(ev) {
-    loadImageFromInput(ev, renderImg)
+    loadImageFromInput(ev, onUploadNewImg)
     // console.log('ev:', ev)
     // console.log(ev.target);
-
 }
 
 // CallBack func will run on success load of the img
@@ -53,15 +52,19 @@ function loadImageFromInput(ev, onImageReady) {
     reader.onload = function (event) {
         let img = new Image() // Create a new html img element
         img.src = event.target.result // Set the img src to the img file we read
-
         // Run the callBack func, To render the img on the canvas
-        img.onload = onImageReady.bind(null, img)
+        img.onload = onImageReady.bind(null, img.src)
         // Can also do it this way:
         // img.onload = () => onImageReady(img)
-
     }
     console.log('ev.target.files[0]:', ev.target.files[0])
     reader.readAsDataURL(ev.target.files[0]) // Read the file we picked
+}
+
+function onUploadNewImg(src) {
+    const meme = createNewMeme(src);
+    renderMeme(meme)
+    renderMemeSettings(meme.lines[0])
 }
 
 
@@ -100,6 +103,7 @@ function onEditMeme(id) {
 }
 
 function onStartNewMeme(ev) {
+    console.log('ev:', ev)
     const meme = createNewMeme(ev.target.src);
     renderMeme(meme)
     renderMemeSettings(meme.lines[0])
@@ -107,7 +111,9 @@ function onStartNewMeme(ev) {
 
 function renderMeme(meme) {
     onChangeView('memes-gen')
+
     // console.log(meme);
+    console.log(meme);
     renderImg(meme.img)
     renderLines(meme.lines)
     setMemeResult()
@@ -116,27 +122,29 @@ function renderMeme(meme) {
 function renderImg(img) {
     // Draw the img on the canvas
     img = getImgElement(img)
+    resizeCanvas(img.height, img.width)
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
 }
 
 function renderLines(lines) {
     if (!lines.length) return
-    lines.forEach(line => {
+    lines.forEach((line, idx) => {
         const { pos, size, color, txt } = line
-        writeText(pos.x, pos.y, size, color, txt)
+        const width = writeText(pos.x, pos.y, size, color, txt)
+        updateTextWidth(idx,width)
     })
 }
 
-function writeText(x, y, size, color, txt) {
+function writeText(x, y, size, color, txt, font='Impact') {
     if (!txt) txt = 'Text Here!'
 
-    gCtx.font = `600 ${size}px Courier New`
+    gCtx.font = `600 ${size}px ${font}`
     gCtx.fillStyle = color
     gCtx.fillText(txt, x, y)
     gCtx.fillStyle = '#000000'
-    gCtx.lineWidth = 3
-    // const width = gCtx.measureText(txt).width
+    gCtx.lineWidth = 1
     gCtx.strokeText(txt, x, y)
+    return gCtx.measureText(txt).width
 }
 
 function onChangeText(text) {
@@ -169,11 +177,28 @@ function onSetChosenLine() {
     const meme = setChosenLine()
     renderMemeSettings()
 }
+function onAlignLeft() {
+    const meme = alignLeft()
+    renderMeme(meme)
+}
+function onAlignRight() {
+    const meme = alignRight()
+    renderMeme(meme)
+}
+function onAlignCenter() {
+    const meme = alignCenter()
+    renderMeme(meme)
+}
+
 
 function onDeleteMeme() {
     deleteMeme()
     renderGallery()
 }
+
+
+
+
 
 function downloadImg(elLink) {
     // image/jpeg the default format
@@ -186,8 +211,6 @@ function getCanvasImgLink() {
     const imgContent = gElCanvas.toDataURL('image/jpeg')
     return imgContent
 }
-
-
 
 function renderMemeSettings() {
     const { lines, selectedLineIdx } = getCurrMeme()
@@ -252,10 +275,8 @@ function onDown(ev) {
         if (!isTextClicked(pos, t)) return
         setChosenLine(idx)
         renderMemeSettings()
-
-        console.log(idx);
-        setTextDrag(true)
-        document.body.style.cursor = 'grabbing'
+        setTextDrag(true, idx)
+        gElCanvas.style.cursor = 'grabbing'
     })
     // console.log(ev);
     //Save the pos we start from 
@@ -289,10 +310,10 @@ function onUp() {
     // console.log('clicked! UPPPP');
 
     const meme = getCurrMeme()
-    meme.lines.forEach(line => {
-        setTextDrag(false)
+    meme.lines.forEach((line, idx) => {
+        setTextDrag(false, idx)
     })
-    document.body.style.cursor = 'grab'
+    gElCanvas.style.cursor = 'grab'
 
 
 }
@@ -322,12 +343,8 @@ function getEvPos(ev) {
 
 
 function isTextClicked(clickedPos, t) {
-    let { pos, size, txt } = t
-
-    if (!txt) txt = 'Text Here!'
-
-    return (clickedPos.x >= pos.x && clickedPos.x <= pos.x + txt.length * (size / 1.7) &&
-        clickedPos.y <= pos.y && clickedPos.y >= pos.y - size)
+    let { pos, size ,width} = t
+    return (clickedPos.x >= pos.x && clickedPos.x <= pos.x + width && clickedPos.y <= pos.y && clickedPos.y >= pos.y - size )
 }
 
 

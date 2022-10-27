@@ -1,10 +1,9 @@
 :root {
     --pr-clr: #2655e0;
 
-    --dark-glass: linear-gradient(45deg, #3331, #3339);
     --dark3: #333;
     --dark1: #1d1d1d;
-    --light-glass: linear-gradient(45deg, #eee1, #eee9);
+    
     --light1: #b7b7b7;
     --light3: #eee;
 
@@ -12,6 +11,10 @@
     inset 5px 5px 10px #3335;
 
     --gaps: 10px;
+
+    --l: 1200px;
+    --m: 780px;
+    --s: 450px;
 }
 
 @font-face {

@@ -83,17 +83,19 @@ function createNewMeme(img) {
     lines: [
       {
         txt: '',
-        size: 110,
-        pos: { x: calcCenterBaseTextX('top text', 40), y: 100 },
+        size: 60,
+        pos: { x: calcCenterBaseWidthX(360.05859375), y: 100 },
         color: '#ffffff',
-        drag: false
+        drag: false,
+        width: 360.05859375
       },
       {
         txt: '',
-        size: 100,
-        pos: { x: calcCenterBaseTextX('top text', 40), y: gElCanvas.height - 100 },
+        size: 60,
+        pos: { x: calcCenterBaseWidthX(360.05859375), y: gElCanvas.height - 100 },
         color: '#ffffff',
-        drag: false
+        drag: false,
+        width: 360.05859375
       },
     ]
   }
@@ -103,12 +105,12 @@ function createNewMeme(img) {
   return meme
 }
 
-function calcCenterBaseTextX(txt, size) {
-  const center = (gElCanvas.width / 2) - (txt.length * (size))
-  return center
+function updateTextWidth(idx, width) {
+  gCurrMeme.lines[idx].width = width
 }
-function calcCenterBaseTextY(txt, size) {
-  const center = (gElCanvas.height / 2)
+
+function calcCenterBaseWidthX(width) {
+  const center = (gElCanvas.width / 2) - (width / 2)
   return center
 }
 
@@ -132,7 +134,6 @@ function setFontSize(size) {
 }
 
 function setChosenLine(idx) {
-  console.log(idx);
   if (!isNaN(idx)) {
     gCurrMeme.selectedLineIdx = idx
     return
@@ -152,9 +153,10 @@ function addLine() {
   const line = {
     txt: '',
     size: 80,
-    pos: { x: calcCenterBaseTextX('top text', 40), y: gElCanvas.height / 2 + 20 },
+    pos: { x: calcCenterBaseWidthX(360.05859375), y: gElCanvas.height / 2 + 20 },
     color: '#ffffff',
-    drag: false
+    drag: false,
+    width: 360.05859375
   }
   gCurrMeme.lines.push(line)
   gCurrMeme.selectedLineIdx = gCurrMeme.lines.length - 1
@@ -174,34 +176,48 @@ function deleteMeme() {
   gCurrMeme = undefined
 }
 
+function alignLeft() {
+  gCurrMeme.lines[gCurrMeme.selectedLineIdx].pos.x = 20
+  return gCurrMeme
+}
+function alignRight() {
+  gCurrMeme.lines[gCurrMeme.selectedLineIdx].pos.x = gElCanvas.width - (gCurrMeme.lines[gCurrMeme.selectedLineIdx].width + 20)
+  return gCurrMeme
+}
+
+function alignCenter() {
+  gCurrMeme.lines[gCurrMeme.selectedLineIdx].pos.x = gElCanvas.width / 2 - (gCurrMeme.lines[gCurrMeme.selectedLineIdx].width / 2)
+  return gCurrMeme
+
+}
 
 function _createImgs() {
   return [
-    { id: 1, url: './img1/1.jpg', keywords: ['funny', 'man'] },
-    { id: 2, url: './img1/2.jpg', keywords: ['funny', 'dog'] },
-    { id: 3, url: './img1/3.jpg', keywords: ['funny', 'dog', 'baby'] },
-    { id: 4, url: './img1/4.jpg', keywords: ['funny', 'cat'] },
-    { id: 5, url: './img1/5.jpg', keywords: ['funny', 'baby'] },
-    { id: 6, url: './img1/6.jpg', keywords: ['funny', 'man'] },
-    { id: 7, url: './img1/7.jpg', keywords: ['funny', 'baby'] },
-    { id: 8, url: './img1/8.jpg', keywords: ['funny', 'man'] },
-    { id: 9, url: './img1/9.jpg', keywords: ['funny', 'baby'] },
-    { id: 10, url: './img1/10.jpg', keywords: ['funny', 'man'] },
-    { id: 11, url: './img1/11.jpg', keywords: ['funny', 'man'] },
-    { id: 12, url: './img1/12.jpg', keywords: ['funny', 'man'] },
-    { id: 13, url: './img1/13.jpg', keywords: ['funny', 'man'] },
-    { id: 14, url: './img1/14.jpg', keywords: ['funny', 'man'] },
-    { id: 15, url: './img1/15.jpg', keywords: ['funny', 'man'] },
-    { id: 16, url: './img1/16.jpg', keywords: ['funny', 'man'] },
-    { id: 17, url: './img1/17.jpg', keywords: ['funny', 'man'] },
-    { id: 18, url: './img1/18.jpg', keywords: ['funny', 'man'] },
-    // { id: 19, url: './img1/19.jpg', keywords: ['funny', 'man'] },
-    // { id: 20, url: './img1/20.jpg', keywords: ['funny', 'man'] },
-    // { id: 21, url: './img1/21.jpg', keywords: ['funny', 'man'] },
-    // { id: 22, url: './img1/22.jpg', keywords: ['funny', 'woman'] },
-    // { id: 23, url: './img1/23.jpg', keywords: ['funny', 'man'] },
-    // { id: 24, url: './img1/24.jpg', keywords: ['funny', 'man'] },
-    // { id: 25, url: './img1/25.jpg', keywords: ['funny', 'man'] },
+    { id: 1, url: './img/1.jpg', keywords: ['funny', 'man'] },
+    { id: 2, url: './img/2.jpg', keywords: ['funny', 'dog'] },
+    { id: 3, url: './img/3.jpg', keywords: ['funny', 'dog', 'baby'] },
+    { id: 4, url: './img/4.jpg', keywords: ['funny', 'cat'] },
+    { id: 5, url: './img/5.jpg', keywords: ['funny', 'baby'] },
+    { id: 6, url: './img/6.jpg', keywords: ['funny', 'man'] },
+    { id: 7, url: './img/7.jpg', keywords: ['funny', 'baby'] },
+    { id: 8, url: './img/8.jpg', keywords: ['funny', 'man'] },
+    { id: 9, url: './img/9.jpg', keywords: ['funny', 'baby'] },
+    { id: 10, url: './img/10.jpg', keywords: ['funny', 'man'] },
+    { id: 11, url: './img/11.jpg', keywords: ['funny', 'man'] },
+    { id: 12, url: './img/12.jpg', keywords: ['funny', 'man'] },
+    { id: 13, url: './img/13.jpg', keywords: ['funny', 'man'] },
+    { id: 14, url: './img/14.jpg', keywords: ['funny', 'man'] },
+    { id: 15, url: './img/15.jpg', keywords: ['funny', 'man'] },
+    { id: 16, url: './img/16.jpg', keywords: ['funny', 'man'] },
+    { id: 17, url: './img/17.jpg', keywords: ['funny', 'man'] },
+    { id: 18, url: './img/18.jpg', keywords: ['funny', 'man'] },
+    { id: 19, url: './img/19.jpg', keywords: ['funny', 'man'] },
+    { id: 20, url: './img/20.jpg', keywords: ['funny', 'man'] },
+    { id: 21, url: './img/21.jpg', keywords: ['funny', 'man'] },
+    { id: 22, url: './img/22.jpg', keywords: ['funny', 'woman'] },
+    { id: 23, url: './img/23.jpg', keywords: ['funny', 'man'] },
+    { id: 24, url: './img/24.jpg', keywords: ['funny', 'man'] },
+    { id: 25, url: './img/25.jpg', keywords: ['funny', 'man'] },
   ]
 }
 
@@ -216,7 +232,7 @@ function moveText(dx, dy) {
   gCurrMeme.lines[gCurrMeme.selectedLineIdx].pos.y += dy
 }
 
-function setTextDrag(isDrag) {
-  gCurrMeme.lines[gCurrMeme.selectedLineIdx].drag = isDrag
-  console.log(gCurrMeme.lines[gCurrMeme.selectedLineIdx].drag);
+function setTextDrag(isDrag, idx) {
+  gCurrMeme.lines[idx].drag = isDrag
+
 }

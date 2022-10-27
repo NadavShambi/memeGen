@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Canvas Paint</title>
+    <title>MemeGen</title>
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body class="grid-container main-layout" onload="onInit()">
@@ -19,6 +19,8 @@
     </header>
 
     <main class="content flex col">
+      <h2>or add your own picture here!</h2>
+      <input type="file" name="image" onchange="onImgInp(event)" />
       <section class="gallery">
         <!-- <h2>gallery here</h2> -->
       </section>
@@ -30,47 +32,63 @@
         </div>
 
         <div class="meme-editor flex col">
-          <div class="controlers">
-            <!-- <span>font family</span> -->
-            <!-- <span>bigger</span> -->
-            <!-- <span>smaller</span> -->
-            <!-- <span>left</span> -->
-            <!-- <span>middle</span> -->
-            <!-- <span>right</span> -->
-            <!-- <span>stroke</span> -->
-            <button onclick="onAddLine()">+</button>
-            <button onclick="onDeleteLine()">X</button>
-            <button onclick="onDeleteMeme()">delete meme</button>
-            <input
-              class="font-size"
-              type="number"
-              min="10"
-              value="40"
-              max="200"
-              oninput="onSetFontSize(this.value)"
-            />
-            <input
-              class="font-color"
-              type="color"
-              oninput="onSetColor(this.value)"
-            />
-            <input type="file" name="image" onchange="onImgInp(event)" />
-            <button onclick="onSetChosenLine()"><ion-icon name="swap-vertical-sharp"></ion-icon></button>
+          <!-- <span>font family</span> -->
+          <!-- <span>bigger</span> -->
+          <!-- <span>smaller</span> -->
+          <!-- <span>left</span> -->
+          <!-- <span>middle</span> -->
+          <!-- <span>right</span> -->
+          <!-- <span>stroke</span> -->
+          <div class="controls flex space-between">
+            <div class="line-controls flex">
+              <button class="center" onclick="onAddLine()">
+                <ion-icon name="add-outline"></ion-icon>
+              </button>
+              <button class="center" onclick="onDeleteLine()">
+                <ion-icon name="close-outline"></ion-icon>
+              </button>
+              <button class="center" onclick="onSetChosenLine()" >
+                <ion-icon name="swap-vertical-outline"></ion-icon>
+              </button>
+                <button class="center" onclick="onAlignLeft()"><img src="./icon/align-to-left.png" alt=""></button>
+                <button class="center" onclick="onAlignCenter()"><img src="./icon/center-text-alignment.png" alt=""></button>
+                <button class="center" onclick="onAlignRight()"><img src="./icon/align-to-right.png" alt=""></button>
+            </div>
+           
+            <button class="del-meme center" onclick="onDeleteMeme()"><ion-icon name="trash-sharp"></ion-icon></button>
           </div>
-          <input
-            class="meme-txt"
-            type="text"
-            oninput="onChangeText(this.value)"
-            placeholder="Text Here!"
-          />
-          
+          <div class="text-controls flex">
+            <input
+              class="meme-txt"
+              type="text"
+              oninput="onChangeText(this.value)"
+              placeholder="Text Here!"
+            />
+            <div class="text-dec flex col align-center">
+              <input
+                class="font-color"
+                type="color"
+                oninput="onSetColor(this.value)"
+              />
+              <input
+                class="font-size"
+                type="number"
+                min="10"
+                value="40"
+                max="200"
+                oninput="onSetFontSize(this.value)"
+              />
+            </div>
+           
+          </div>
+
+          <div class="socials">
+            <button onclick="uploadImg()">share</button>
+            <button>
+              <a download="my-meme.jpg" onclick="downloadImg(this)">save</a>
+            </button>
+          </div>
         </div>
-        <div class="socials">
-          <a download="my-meme.jpg" onclick="downloadImg(this)">save</a>
-          <span onclick="uploadImg()">share</span>
-        </div>
-       
-          
       </section>
 
       <section class="memes">
@@ -79,7 +97,7 @@
     </main>
 
     <footer class="main-footer center full">
-      <small>Pukiel &copy;</small>
+      <small>Nadav Shambi&copy; - 2022 </small>
     </footer>
 
     <!-- MODALS -->

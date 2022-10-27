@@ -4,6 +4,9 @@
 @import './basic/layout.css';
 @import './component/header.css';
 @import './component/main.css';
+@import './component/memegen.css';
 @import './component/footer.css';
 @import './component/modal.css';
+@import './media/medium.css' (min-width:780px);
+@import './media/large.css' (min-width:1200px);
 @import './basic/last.css';

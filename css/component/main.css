@@ -1,6 +1,7 @@
 .content {
     gap: var(--gaps);
     width: 100%;
+    padding: 15px;
 }
 
 
@@ -23,25 +24,6 @@
     transform: scale(1.1);
 }
 
-.meme-editor {
-    background: red;
-    
-}
-
-.canvas-container {
-    flex: 1;
-    height: 800px;
-    width: 800px;
-    margin: 20px;
-}
-
-canvas {
-    border-radius: 13px;
-    height: 100%;
-    width: 100%;
-    background-color: var(--light1);
-}
-
 .memes{
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax(200px, 1fr));
@@ -54,5 +36,4 @@ canvas {
     border-radius: 20px;
     cursor: pointer;
     box-shadow: var(--box-shadow);
-    
 }
