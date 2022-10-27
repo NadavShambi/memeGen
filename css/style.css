@@ -1,7 +1,6 @@
 @import './basic/root.css';
 @import './basic/base.css';
 @import './basic/helper.css';
-@import './basic/layout.css';
 @import './component/header.css';
 @import './component/main.css';
 @import './component/memegen.css';

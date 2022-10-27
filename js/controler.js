@@ -16,7 +16,7 @@ function onInit() {
 }
 
 function onChangeView(view) {
-    const options = ['gallery', 'memes-gen', 'memes']
+    const options = ['gallery-container', 'memes-gen', 'memes']
     options.forEach(op => {
         if (view === op) {
             document.querySelector(`.${op}`).classList.remove('hide')
@@ -71,7 +71,7 @@ function onUploadNewImg(src) {
 //Gallery
 
 function renderGallery() {
-    onChangeView('gallery')
+    onChangeView('gallery-container')
     const imgs = getImgs()
     const galleryHTML = imgs.map(img => {
         const { url } = img
@@ -103,19 +103,17 @@ function onEditMeme(id) {
 }
 
 function onStartNewMeme(ev) {
-    console.log('ev:', ev)
-    console.log(ev.target.height);
-    console.log(ev.target.width);
+    img = getImgElement(ev.target.src)
+    onChangeView('memes-gen')
+    resizeCanvas(img.height, img.width)
     const meme = createNewMeme(ev.target.src);
     renderMeme(meme)
     renderMemeSettings(meme.lines[0])
 }
 
 function renderMeme(meme) {
-    onChangeView('memes-gen')
-
     // console.log(meme);
-    console.log(meme);
+    // console.log(meme);
     renderImg(meme.img)
     renderLines(meme.lines)
     setMemeResult()
@@ -124,7 +122,6 @@ function renderMeme(meme) {
 function renderImg(img) {
     // Draw the img on the canvas
     img = getImgElement(img)
-    resizeCanvas(img.height, img.width)
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
 }
 

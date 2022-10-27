@@ -1,8 +1,0 @@
-.grid-container{
-    display: grid;
-    height: 100vh;
-    grid-template-rows: 1fr 8fr 1fr;
-    box-shadow: inset 0 0 3px var(--dark1);
-    
-}
-

@@ -8,22 +8,33 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body class="grid-container main-layout" onload="onInit()">
-    <header class="main-header flex align-center main-layout full">
-      <div class="logo">MemeGen</div>
-      <nav>
-        <ul class="main-nav flex">
-          <li class="hover" onclick="onChangeView('memes')">Memes</li>
-          <li class="hover" onclick="onChangeView('gallery')">Gallery</li>
-        </ul>
-      </nav>
+    <header class="main-header  main-layout full">
+      <section class="main-header flex space-between align-center">
+
+        <div class="logo">MemeGen</div>
+        <nav>
+          <ul class="main-nav flex">
+            <li class="hover" onclick="onChangeView('memes')">Memes</li>
+            <li class="hover" onclick="onChangeView('gallery-container')">Gallery</li>
+          </ul>
+        </nav>
+      </section>
     </header>
 
     <main class="content flex col">
-      <h2>or add your own picture here!</h2>
-      <input type="file" name="image" onchange="onImgInp(event)" />
-      <section class="gallery">
-        <!-- <h2>gallery here</h2> -->
+
+      <div class="gallery-container">
+        <div class="upload flex col align-center">
+          <label>
+            <h2>Select Image</h2>
+            <h1><ion-icon name="camera"></ion-icon></h1>
+            <input type="file" name="image" onchange="onImgInp(event)" />
+          </label>
+        </div>
+         <section class="gallery">
       </section>
+      </div>
+     
 
       <section class="memes-gen">
         <div class="canvas-container">
@@ -39,7 +50,7 @@
           <!-- <span>middle</span> -->
           <!-- <span>right</span> -->
           <!-- <span>stroke</span> -->
-          <button class="del-meme center" onclick="onDeleteMeme()"><ion-icon name="trash-sharp"></ion-icon></button>
+          <button class="del-meme center" onclick="onDeleteMeme()">Delete Meme</button>
           <div class="flex">
             <div class="line-controls flex">
               <button class="center" onclick="onAddLine()">

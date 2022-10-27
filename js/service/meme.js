@@ -75,7 +75,7 @@ function doUploadImg(imgDataUrl, onSuccess) {
 
 
 function createNewMeme(img) {
- 
+
   const meme = {
     id: getRandomId(),
     img,
@@ -85,7 +85,7 @@ function createNewMeme(img) {
       {
         txt: '',
         size: 60,
-        pos: { x: calcCenterBaseWidthX(360.05859375), y: 100 },
+        pos: { x: calcCenterBaseWidthX(360.05859375), y: 80 },
         color: '#ffffff',
         drag: false,
         width: 360.05859375
@@ -93,7 +93,7 @@ function createNewMeme(img) {
       {
         txt: '',
         size: 60,
-        pos: { x: calcCenterBaseWidthX(360.05859375), y: gElCanvas.height - 100 },
+        pos: { x: calcCenterBaseWidthX(360.05859375), y: gElCanvas.height - 20 },
         color: '#ffffff',
         drag: false,
         width: 360.05859375
@@ -111,7 +111,7 @@ function updateTextWidth(idx, width) {
 }
 
 function calcCenterBaseWidthX(width) {
-  const center = (gElCanvas.width / 2) - (width / 2)
+  const center = (gElCanvas.width / 2) - (width/3)
   return center
 }
 

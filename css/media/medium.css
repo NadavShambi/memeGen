@@ -7,3 +7,26 @@
 
 }
 
+.meme-editor {
+    background: linear-gradient(#3338, #3335);
+    border-radius: 0 0 13px 13px;
+}
+
+.canvas-container {
+    border-radius:13px 13px 0 0;
+}
+
+.gallery{
+    grid-auto-rows: auto;
+    grid-auto-flow: dense;
+}
+
+.gallery>*:nth-child(6n+1){
+    grid-column: span 1;
+    grid-row: span 2;
+}
+
+.gallery>*:nth-child(3n-3){
+    grid-column: span 2;
+    grid-row: span 1;
+}

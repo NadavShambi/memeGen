@@ -6,6 +6,30 @@
 
 .memes-gen{
     display: flex;
-    align-items: center;
 }
 
+.meme-editor {
+    background: linear-gradient(to right,#3338, #3335);
+    border-radius: 0 13px 13px 0;
+}
+
+.canvas-container {
+    background:linear-gradient(to right,#3335,#3338);
+    border-radius: 13px 0 0 13px;
+
+}
+
+.del-meme{
+    margin-top: 10px;
+}
+
+
+.gallery>*:nth-child(6n+1){
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.gallery>*:nth-child(3n-3){
+    grid-column: span 2;
+    grid-row: span 1;
+}
