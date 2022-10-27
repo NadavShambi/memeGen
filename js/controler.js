@@ -37,6 +37,7 @@ function resizeCanvas(imgH, imgW) {
 //UPLOAD
 
 function onImgInp(ev) {
+    onChangeView('memes-gen')
     loadImageFromInput(ev, onUploadNewImg)
 }
 
