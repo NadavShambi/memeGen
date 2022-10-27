@@ -11,6 +11,8 @@
     inset 5px 5px 10px #3335;
 
     --gaps: 10px;
+    --border-radius:10px;
+
 
     --l: 1200px;
     --m: 780px;

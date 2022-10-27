@@ -75,6 +75,7 @@ function doUploadImg(imgDataUrl, onSuccess) {
 
 
 function createNewMeme(img) {
+ 
   const meme = {
     id: getRandomId(),
     img,

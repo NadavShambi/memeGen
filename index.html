@@ -39,7 +39,8 @@
           <!-- <span>middle</span> -->
           <!-- <span>right</span> -->
           <!-- <span>stroke</span> -->
-          <div class="controls flex space-between">
+          <button class="del-meme center" onclick="onDeleteMeme()"><ion-icon name="trash-sharp"></ion-icon></button>
+          <div class="flex">
             <div class="line-controls flex">
               <button class="center" onclick="onAddLine()">
                 <ion-icon name="add-outline"></ion-icon>
@@ -55,7 +56,6 @@
                 <button class="center" onclick="onAlignRight()"><img src="./icon/align-to-right.png" alt=""></button>
             </div>
            
-            <button class="del-meme center" onclick="onDeleteMeme()"><ion-icon name="trash-sharp"></ion-icon></button>
           </div>
           <div class="text-controls flex">
             <input
@@ -82,7 +82,7 @@
            
           </div>
 
-          <div class="socials">
+          <div class="socials flex space-around">
             <button onclick="uploadImg()">share</button>
             <button>
               <a download="my-meme.jpg" onclick="downloadImg(this)">save</a>

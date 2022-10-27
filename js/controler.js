@@ -104,6 +104,8 @@ function onEditMeme(id) {
 
 function onStartNewMeme(ev) {
     console.log('ev:', ev)
+    console.log(ev.target.height);
+    console.log(ev.target.width);
     const meme = createNewMeme(ev.target.src);
     renderMeme(meme)
     renderMemeSettings(meme.lines[0])

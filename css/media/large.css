@@ -4,10 +4,8 @@
     margin-right: auto;
 }
 
-body{
-    background: pink;
-}
-
 .memes-gen{
     display: flex;
+    align-items: center;
 }
+
