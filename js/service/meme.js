@@ -8,14 +8,14 @@ var gMemes = loadFromStorage(MEMES_KEY) || []
 var gCurrMeme
 var gCategories = createCategories()
 
-function getFilteredCategories(txt=''){
-  const categories = gCategories.filter(c=>c.includes(txt))
+function getFilteredCategories(txt = '') {
+  const categories = gCategories.filter(c => c.includes(txt))
   return categories
 }
 
-function getFilteredImgs(categories){
-  const imgs = gImgs.filter(img=>{
-    return img.keywords.some(key=>categories.includes(key))
+function getFilteredImgs(categories) {
+  const imgs = gImgs.filter(img => {
+    return img.keywords.some(key => categories.includes(key))
   })
   return imgs
 }
@@ -110,7 +110,7 @@ function setMemeResult() {
   saveMemes()
 }
 
-function addLine(txt='') {
+function addLine(txt = '') {
   const line = {
     txt,
     size: 80,
@@ -168,6 +168,32 @@ function createCategories() {
 
 function _createImgs() {
   return [
+    { id: 26, url: './img/26.jpg', keywords: ['funny', 'man', 'drake', 'choises'] },
+    { id: 27, url: './img/27.jpg', keywords: ['funny', 'man', 'button', 'cartoons', 'choises'] },
+    { id: 28, url: './img/28.jpg', keywords: ['funny', 'man', 'woman'] },
+    { id: 29, url: './img/29.jpg', keywords: ['funny', 'cartoons'] },
+    { id: 30, url: './img/30.jpg', keywords: ['funny', 'man', 'game'] },
+    { id: 31, url: './img/31.jpg', keywords: ['funny', 'car', 'choises'] },
+    { id: 32, url: './img/32.jpg', keywords: ['funny', 'man', 'movies'] },
+    { id: 33, url: './img/33.jpg', keywords: ['funny', 'man', 'prove'] },
+    { id: 34, url: './img/34.jpg', keywords: ['funny', 'man', 'movies', 'cartoons'] },
+    { id: 35, url: './img/35.jpg', keywords: ['funny', 'man'] },
+    { id: 36, url: './img/36.jpg', keywords: ['funny', 'man', 'movies', 'cartoons', 'superhero'] },
+    { id: 37, url: './img/37.jpg', keywords: ['funny', 'brain', 'its fine'] },
+    { id: 38, url: './img/38.jpg', keywords: ['funny', 'man', 'movies'] },
+    { id: 39, url: './img/39.jpg', keywords: ['funny', 'button'] },
+    { id: 40, url: './img/40.jpg', keywords: ['funny', 'baby', 'its fine'] },
+    { id: 41, url: './img/41.jpg', keywords: ['funny', 'cat', 'woman', 'LOL'] },
+    { id: 42, url: './img/42.jpg', keywords: ['funny', 'man', 'movies', 'thinking'] },
+    { id: 43, url: './img/43.jpg', keywords: ['funny', 'cartoons', 'movies'] },
+    { id: 44, url: './img/44.jpg', keywords: ['funny', 'man', 'woman'] },
+    { id: 45, url: './img/45.jpg', keywords: ['funny', 'man', 'movies', 'cartoons'] },
+    { id: 46, url: './img/46.jpg', keywords: ['funny', 'cartoons', 'movies'] },
+    { id: 47, url: './img/47.jpg', keywords: ['funny', 'man'] },
+    { id: 48, url: './img/48.jpg', keywords: ['funny', 'woman'] },
+    { id: 49, url: './img/49.jpg', keywords: ['funny', 'man', 'thinking', 'cartoons'] },
+    { id: 50, url: './img/50.jpg', keywords: ['funny', 'man', 'fail'] },
+    { id: 51, url: './img/51.jpg', keywords: ['funny', 'man'] },
     { id: 1, url: './img/1.jpg', keywords: ['funny', 'woman', 'mountains'] },
     { id: 2, url: './img/2.jpg', keywords: ['funny', 'man', 'politics'] },
     { id: 3, url: './img/3.jpg', keywords: ['funny', 'dog', 'pet', 'cute'] },
@@ -181,18 +207,17 @@ function _createImgs() {
     { id: 11, url: './img/11.jpg', keywords: ['funny', 'man', 'moveis', 'LOL'] },
     { id: 12, url: './img/12.jpg', keywords: ['funny', 'man', 'movies'] },
     { id: 13, url: './img/13.jpg', keywords: ['funny', 'baby', 'dance', 'LOL'] },
-    { id: 14, url: './img/14.jpg', keywords: ['funny', 'man', 'politics'] },
+    { id: 14, url: './img/14.jpg', keywords: ['funny', 'man', 'politics', 'LOL'] },
     { id: 15, url: './img/15.jpg', keywords: ['funny', 'baby', 'cute'] },
     { id: 16, url: './img/16.jpg', keywords: ['funny', 'dog', 'pet', 'cute'] },
-    { id: 17, url: './img/17.jpg', keywords: ['funny', 'man', 'politics'] },
+    { id: 17, url: './img/17.jpg', keywords: ['funny', 'man', 'politics', 'LOL'] },
     { id: 18, url: './img/18.jpg', keywords: ['funny', 'man'] },
     { id: 19, url: './img/19.jpg', keywords: ['funny', 'man', 'movies', 'Cheers'] },
     { id: 20, url: './img/20.jpg', keywords: ['funny', 'man', 'movies'] },
     { id: 21, url: './img/21.jpg', keywords: ['funny', 'man', 'movies'] },
     { id: 22, url: './img/22.jpg', keywords: ['funny', 'woman', 'movies'] },
-    { id: 23, url: './img/23.jpg', keywords: ['funny', 'man', 'movies'] },
-    { id: 24, url: './img/24.jpg', keywords: ['funny', 'man', 'politics'] },
-    { id: 25, url: './img/25.jpg', keywords: ['funny', 'man', 'movies'] },
+    { id: 23, url: './img/23.jpg', keywords: ['funny', 'man', 'movies', 'LOL'] },
+    { id: 24, url: './img/24.jpg', keywords: ['funny', 'man', 'politics'] }
   ]
 }
 

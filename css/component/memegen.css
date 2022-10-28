@@ -86,8 +86,6 @@ canvas {
 
 .text-dec>*>input {
     visibility: hidden;
-    height: 0;
-    width: 0;
 }
 
 .text-dec>*:first-child {

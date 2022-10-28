@@ -55,6 +55,8 @@ function loadImageFromInput(ev, onImageReady) {
 }
 
 function onUploadNewImg(src) {
+    const img = getImgElement(src)
+    resizeCanvas(img.height, img.width)
     const meme = createNewMeme(src);
     renderMeme(meme)
     renderMemeSettings(meme.lines[0])
@@ -69,7 +71,6 @@ function onActive(active) {
             document.querySelector(`.${option}`).classList.remove('active')
         }
     })
-
 }
 
 //Gallery
@@ -117,9 +118,9 @@ function onEditMeme(id) {
     const meme = setCurrMeme(id)
     const img = getImgElement(meme.img)
     onChangeView('memes-gen')
+    resizeCanvas(img.height, img.width)
     renderMemeSettings()
     renderMeme(meme)
-    resizeCanvas(img.height, img.width)
 }
 
 function onStartNewMeme(ev) {
@@ -132,8 +133,6 @@ function onStartNewMeme(ev) {
 }
 
 function renderMeme(meme) {
-    // console.log(meme);
-    // console.log(meme);
     renderImg(meme.img)
     renderLines(meme.lines)
     setMemeResult()
@@ -216,7 +215,7 @@ function onAlignCenter() {
 
 function onDeleteMeme() {
     deleteMeme()
-    renderGallery()
+    onChangeView('memes')
 }
 
 function downloadImg(elLink) {
