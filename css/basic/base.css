@@ -1,19 +1,19 @@
-*{
+* {
     box-sizing: border-box;
 }
 
-html{
-    font-family: poppins , sans-serif;
+html {
+    font-family: poppins, sans-serif;
     color: var(--dark3);
 }
 
-body{
+body {
     margin: 0;
     background-color: var(--light3);
     min-height: 100vh;
 }
 
-img{
+img {
     height: 100%;
     width: 100%;
     object-fit: cover;
@@ -24,23 +24,23 @@ h2,
 h3,
 h4,
 h5,
-h6{
+h6 {
     margin: 0;
     padding: 0;
 }
 
-ul{
-    margin:0;
+ul {
+    margin: 0;
     padding: 0;
 }
 
-button{
+button {
     cursor: pointer;
     border: none;
     background: var(--dark3);
     color: var(--light3);
     box-shadow: 1.5px 2px #eee2,
-    inset 1.5px 2px #eee2;
+        inset 1.5px 2px #eee2;
     transition: background .5s, box-shadow .5s;
     position: relative;
     font-size: 1.2em;
@@ -49,24 +49,28 @@ button{
     letter-spacing: .04em;
 }
 
-button:hover{
+button:hover {
 
     box-shadow: 1px 1px #eee2,
-    inset 1.5px 2px #eee2;
+        inset 1.5px 2px #eee2;
 }
 
-a:visited{
+a:visited {
     text-decoration: none;
     color: var(--light1);
 
 }
 
-label{
+label {
     margin: 0;
     padding: 0;
 }
 
-::selection{
+::selection {
     color: var(--light3);
     background-color: var(--pr-clr);
+}
+
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
 }

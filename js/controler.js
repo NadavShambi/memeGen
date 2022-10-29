@@ -44,7 +44,6 @@ function onImgInp(ev) {
 
 function loadImageFromInput(ev, onImageReady) {
     const reader = new FileReader()
-    console.log('reader:', reader)
 
     reader.onload = function (event) {
         let img = new Image()
@@ -52,7 +51,6 @@ function loadImageFromInput(ev, onImageReady) {
         img.onload = onImageReady.bind(null, img.src)
 
     }
-    console.log('ev.target.files[0]:', ev.target.files[0])
     reader.readAsDataURL(ev.target.files[0])
 }
 
@@ -152,31 +150,25 @@ function renderLines(lines, save = '') {
     if (!lines.length) return
     lines.forEach((l, idx) => {
         const { pos, size, color, txt, font } = l
-        if (idx === meme.selectedLineIdx && !save) drawBorder(l)
         const width = writeText(pos.x, pos.y, size, color, txt, font)
+        if (idx === meme.selectedLineIdx && !save) drawBorder(l)
         updateTextWidth(idx, width)
     })
 }
 
 function onChangeFont(font) {
-    console.log(font);
     const meme = changeFont(font)
     renderMeme(meme)
 }
 
 function writeText(x, y, size, color, txt, font) {
     if (!txt) txt = 'Text Here!'
-
-
-    var gradient = gCtx.createLinearGradient(x, y, x + gCtx.measureText(txt).width, y - size);
+    const gradient = gCtx.createLinearGradient(x, y, x + gCtx.measureText(txt).width, y - size);
     gradient.addColorStop("0", color[0]);
     gradient.addColorStop("0.5", color[1]);
     gradient.addColorStop("1.0", color[2]);
-
-
-    gCtx.font = `600 ${size}px ${font}`
-    // gCtx.fillStyle = color
     gCtx.fillStyle = gradient
+    gCtx.font = `600 ${size}px ${font}`
     gCtx.fillText(txt, x, y)
     gCtx.lineWidth = 1
     gCtx.strokeStyle = '#000'
@@ -189,9 +181,17 @@ function onChangeText(text) {
     renderMeme(meme)
 }
 
-function onSetColor(color,idx) {
-    const meme = setColor(color,idx)
+function onSetColor(color, idx) {
+
+    const meme = setColor(color, idx)
+    color = meme.lines[meme.selectedLineIdx].color
+    renderColorRange(color)
     renderMeme(meme)
+}
+
+function renderColorRange(color){
+    const range = document.querySelector('.color-range')
+    range.style.background = `linear-gradient(to left,${color[0]},${color[1]},${color[2]})`
 }
 
 function onSetFontSize(size) {
@@ -240,7 +240,6 @@ function onDeleteMeme() {
 
 function downloadImg(elLink) {
     // image/jpeg the default format
-    console.log(elLink);
     const meme = getCurrMeme()
     renderMeme(meme, true)
     const imgContent = gElCanvas.toDataURL('image/jpeg')
@@ -275,6 +274,7 @@ function renderMemeSettings() {
         fontColor2.value = '#ffffff'
         txt.value = ''
     }
+    renderColorRange(line.color)
 
 }
 
@@ -316,7 +316,6 @@ function onDown(ev) {
     const meme = getCurrMeme()
     meme.lines.forEach((l, idx) => {
         if (!isTextClicked(pos, l)) return
-        console.log(isTextClicked(pos, l));
         setChosenLine(idx)
         renderMemeSettings()
         setTextDrag(true, idx)
@@ -408,17 +407,18 @@ function drawBorder(line) {
 }
 
 function uploadImg() {
+    const meme = getCurrMeme()
+    renderMeme(meme, true)
     const imgDataUrl = gElCanvas.toDataURL("image/jpeg")
 
     function onSuccess(uploadedImgUrl) {
         // Encode the instance of certain characters in the url
         const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
-        console.log(encodedUploadedImgUrl)
 
         // Create a link that on click will make a post in facebook with the image we uploaded
         const link = `
       <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
-      Share   
+      <img src="./icon/facebook.png" >
       </a>`
         openModal(link)
     }
@@ -427,12 +427,31 @@ function uploadImg() {
 
 function openModal(link) {
     document.querySelector('.modal').classList.add('open')
-    document.querySelector('.user-msg').innerText = `Your photo is available here: `
-    document.querySelector('.share-container').innerHTML = link
+    const img = getCurrMeme()
+    renderModal(img.result, link)
+    // document.querySelector('.share-container').innerHTML = link
 }
 
 function closeModal() {
     document.querySelector('.modal').classList.remove('open')
+}
+
+function renderModal(result,link ){
+    const innerHTML =  `
+    <div class="flex col align-center">
+    <img class="modal-img" src="${result}" alt="">
+    <div class="social-share flex space-around">
+    ${link}
+    <a><img src="./icon/whatsapp.png" title="coming soon"></a>
+    <a><img src="./icon/linkedin.png" title="coming soon"></a>
+    <a><img src="./icon/twitter.png" title="coming soon"></a>
+    
+    </div>
+    
+    </div>
+    `
+    document.querySelector('.user-msg').innerHTML = innerHTML
+    // document.querySelector('.share-container').innerHTML = link
 }
 
 function doUploadImg(imgDataUrl, onSuccess) {

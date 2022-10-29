@@ -101,7 +101,6 @@ function setChosenLine(idx) {
     gCurrMeme.selectedLineIdx = idx
     return
   }
-  console.log('here');
   gCurrMeme.selectedLineIdx++
   if (gCurrMeme.selectedLineIdx === gCurrMeme.lines.length) gCurrMeme.selectedLineIdx = 0
   return gCurrMeme

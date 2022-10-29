@@ -8,6 +8,7 @@ height: 0px;
 overflow: hidden;
 transition: height .5s;
 width: 100vw;
+z-index: 200000;
 }
 
 .main-modal{
@@ -31,11 +32,10 @@ width: 100vw;
 
 .close-modal{
     align-self: end;
-    border-radius: 5px 50%;
     margin-block-start: 5px;
     margin-inline-end: 5px;
     font-size: .8em;
-    padding: 3px 6px;
+    padding: .4em .8em;
     position: absolute;
     top: 5%;
     right: 5%;
@@ -47,4 +47,42 @@ width: 100vw;
 }
 .share-link{
     align-self: center;
+}
+
+.modal-img{
+    width: 60%;
+}
+
+.social-share{
+    width: 60%;
+    margin-block-start: 20px;
+}
+
+.social-share>*{
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+    filter: invert(.85);
+    background: #555;
+    border-radius: var(--border-radius);
+    transition: all .5s;
+}
+
+.social-share>*:hover{
+    background: #ff970f;
+}
+.social-share>*:nth-child(2):hover{
+    background: #ff00ff;
+}
+
+.social-share>*>img{
+    filter: invert(.8);
+    transform: scale(.6);
+    transition: all .5s;
+
+}
+.social-share>*:hover >img{
+    filter: invert(0);
+    transform: scale(.8);
+
 }

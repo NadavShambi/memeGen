@@ -37,3 +37,10 @@
     margin-inline-start: 0;
 
 }
+
+.line-controls{
+    display: flex;
+}
+.line-controls>*:nth-child(3){
+    border-radius: 0;
+}

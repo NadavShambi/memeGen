@@ -6,12 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MemeGen</title>
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="shortcut icon" href="./favicon-meme.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="./favicon-meme.ico" type="image/x-icon" />
   </head>
   <body class="main-layout flex col" onload="onInit()">
     <header class="main-header main-layout full">
       <section class="main-header flex space-between align-center">
-        <div class="logo hover" onclick="onChangeView('gallery-container');onActive('gal')">MemeGen</div>
+        <div
+          class="logo hover"
+          onclick="onChangeView('gallery-container');onActive('gal')"
+        >
+          MemeGen
+        </div>
         <nav>
           <ul class="main-nav flex">
             <li
@@ -48,12 +53,16 @@
         <div class="search-container">
           <label class="flex">
             <h2>Search By Category:</h2>
-            <input name="category" list="category" class="search" type="text" oninput=" renderCategories(this.value)"/>
+            <input
+              name="category"
+              list="category"
+              class="search"
+              type="text"
+              oninput=" renderCategories(this.value)"
+            />
           </label>
         </div>
-        <datalist id="category">
-         
-        </datalist>
+        <datalist id="category"> </datalist>
 
         <section class="gallery"></section>
       </div>
@@ -73,7 +82,8 @@
             Delete Meme
           </button>
           <div class="flex">
-            <div class="line-controls flex">
+            <div class="line-controls">
+              
               <button class="center" onclick="onAddLine()">
                 <ion-icon name="add-outline"></ion-icon>
               </button>
@@ -83,26 +93,27 @@
               <button class="center" onclick="onSetChosenLine()">
                 <ion-icon name="swap-vertical-outline"></ion-icon>
               </button>
-              <button class="center" onclick="onAlignLeft()">
-                <img src="./icon/align-to-left.png" alt="" />
-              </button>
-              <button class="center" onclick="onAlignCenter()">
-                <img src="./icon/center-text-alignment.png" alt="" />
-              </button>
-              <button class="center" onclick="onAlignRight()">
-                <img src="./icon/align-to-right.png" alt="" />
-              </button>
-              <select class="font-family" onchange="onChangeFont(this.value)">
-                <option value="impact">Impact</option>
-                <option value="poppins">Poppins</option>
-                <option value="Ariel">Ariel</option>
-                <option value="pacifico">Pacifico</option>
-                <option value="Courier New">Courier New</option>
-                <option value="serif">Serif</option>
-                <option value="lucky">Luckiest Guy</option>
-                <option value="creepster">Creepster</option>
-                
-              </select>
+
+                <button class="center" onclick="onAlignLeft()">
+                  <img src="./icon/align-to-left.png" alt="" />
+                </button>
+                <button class="center" onclick="onAlignCenter()">
+                  <img src="./icon/center-text-alignment.png" alt="" />
+                </button>
+                <button class="center" onclick="onAlignRight()">
+                  <img src="./icon/align-to-right.png" alt="" />
+                </button>
+                <select class="font-family" onchange="onChangeFont(this.value)">
+                  <option value="impact">Impact</option>
+                  <option value="poppins">Poppins</option>
+                  <option value="Ariel">Ariel</option>
+                  <option value="pacifico">Pacifico</option>
+                  <option value="Courier New">Courier New</option>
+                  <option value="serif">Serif</option>
+                  <option value="lucky">Luckiest Guy</option>
+                  <option value="creepster">Creepster</option>
+                </select>
+
             </div>
           </div>
           <div class="text-controls flex">
@@ -113,7 +124,7 @@
               placeholder="Text Here!"
             />
             <div class="text-dec flex col align-center">
-          <!-- BTN MAYBE -->
+              <!-- BTN MAYBE -->
               <input
                 class="font-size"
                 type="number"
@@ -124,79 +135,80 @@
               />
             </div>
           </div>
-          <div class="text-colors flex space-around">
-            <label class="center">
-              <img src="./icon/paint.png" alt="">
+          <div class="text-colors flex align-center space-around">
+            <div class="color-range"></div>
+
+            <label class="color-picker flex col align-center">
+              <span>Start</span>
               <input
                 class="font-color0"
                 type="color"
                 oninput="onSetColor(this.value,0)"
-                
               />
-            </label>    <label class="center">
-              <img src="./icon/paint.png" alt="">
+            </label>
+            <label class="color-picker flex col align-center">
+              <span>Middle</span>
               <input
                 class="font-color1"
                 type="color"
                 oninput="onSetColor(this.value,1)"
-                
               />
-            </label>    <label class="center">
-              <img src="./icon/paint.png" alt="">
+            </label>
+            <label class="color-picker flex col align-center">
+              <span>End</span>
               <input
                 class="font-color2"
                 type="color"
                 oninput="onSetColor(this.value,2)"
-                
               />
             </label>
           </div>
           <div class="emojis flex">
-          <div class="center" onclick="onAddEmoji(this)">😎</div>
-          <div class="center" onclick="onAddEmoji(this)">😍</div>
-          <div class="center" onclick="onAddEmoji(this)">⭐</div>
-          <div class="center" onclick="onAddEmoji(this)">🦶</div>
-          <div class="center" onclick="onAddEmoji(this)">🧆</div>
-          <div class="center" onclick="onAddEmoji(this)">💖</div>
-          <div class="center" onclick="onAddEmoji(this)">💧</div>
-          <div class="center" onclick="onAddEmoji(this)">💯</div>
-          <div class="center" onclick="onAddEmoji(this)">😈</div>
-          <div class="center" onclick="onAddEmoji(this)">🐵</div>
-          <div class="center" onclick="onAddEmoji(this)">🥇</div>
-          <div class="center" onclick="onAddEmoji(this)">🙌</div>
-          <div class="center" onclick="onAddEmoji(this)">👻</div>
-          <div class="center" onclick="onAddEmoji(this)">🍒</div>
-          <div class="center" onclick="onAddEmoji(this)">✌</div>
-          <div class="center" onclick="onAddEmoji(this)">🌹</div>
-          <div class="center" onclick="onAddEmoji(this)">👑</div>
-          <div class="center" onclick="onAddEmoji(this)">🎶</div>
-          <div class="center" onclick="onAddEmoji(this)">🚩</div>
-          <div class="center" onclick="onAddEmoji(this)">🎁</div>
-          <div class="center" onclick="onAddEmoji(this)">💋</div>
-          <div class="center" onclick="onAddEmoji(this)">🍕</div>
-          <div class="center" onclick="onAddEmoji(this)">👌</div>
-          <div class="center" onclick="onAddEmoji(this)">😴</div>
-          <div class="center" onclick="onAddEmoji(this)">🤑</div>
-          <div class="center" onclick="onAddEmoji(this)">🤡</div>
-          <div class="center" onclick="onAddEmoji(this)">💩</div>
-          <div class="center" onclick="onAddEmoji(this)">👽</div>
-          <div class="center" onclick="onAddEmoji(this)">🐼</div>
-          <div class="center" onclick="onAddEmoji(this)">👓</div>
-          <div class="center" onclick="onAddEmoji(this)">💎</div>
-          <div class="center" onclick="onAddEmoji(this)">💣</div>
-          <div class="center" onclick="onAddEmoji(this)">🎇</div>
-          <div class="center" onclick="onAddEmoji(this)">🎃</div>
-          <div class="center" onclick="onAddEmoji(this)">🎱</div>
-          <div class="center" onclick="onAddEmoji(this)">🍌</div>
-          <div class="center" onclick="onAddEmoji(this)">🐱</div>
-          <div class="center" onclick="onAddEmoji(this)">🎮</div>
-          <div class="center" onclick="onAddEmoji(this)">🍨</div>
-          <div class="center" onclick="onAddEmoji(this)">🍄</div>
-          <div class="center" onclick="onAddEmoji(this)">🍁</div>
+            <div class="center" onclick="onAddEmoji(this)">😎</div>
+            <div class="center" onclick="onAddEmoji(this)">😍</div>
+            <div class="center" onclick="onAddEmoji(this)">⭐</div>
+            <div class="center" onclick="onAddEmoji(this)">🦶</div>
+            <div class="center" onclick="onAddEmoji(this)">🧆</div>
+            <div class="center" onclick="onAddEmoji(this)">💖</div>
+            <div class="center" onclick="onAddEmoji(this)">💧</div>
+            <div class="center" onclick="onAddEmoji(this)">💯</div>
+            <div class="center" onclick="onAddEmoji(this)">😈</div>
+            <div class="center" onclick="onAddEmoji(this)">🐵</div>
+            <div class="center" onclick="onAddEmoji(this)">🥇</div>
+            <div class="center" onclick="onAddEmoji(this)">🙌</div>
+            <div class="center" onclick="onAddEmoji(this)">👻</div>
+            <div class="center" onclick="onAddEmoji(this)">🍒</div>
+            <div class="center" onclick="onAddEmoji(this)">✌</div>
+            <div class="center" onclick="onAddEmoji(this)">🌹</div>
+            <div class="center" onclick="onAddEmoji(this)">👑</div>
+            <div class="center" onclick="onAddEmoji(this)">🎶</div>
+            <div class="center" onclick="onAddEmoji(this)">🚩</div>
+            <div class="center" onclick="onAddEmoji(this)">🎁</div>
+            <div class="center" onclick="onAddEmoji(this)">💋</div>
+            <div class="center" onclick="onAddEmoji(this)">🍕</div>
+            <div class="center" onclick="onAddEmoji(this)">👌</div>
+            <div class="center" onclick="onAddEmoji(this)">😴</div>
+            <div class="center" onclick="onAddEmoji(this)">🤑</div>
+            <div class="center" onclick="onAddEmoji(this)">🤡</div>
+            <div class="center" onclick="onAddEmoji(this)">💩</div>
+            <div class="center" onclick="onAddEmoji(this)">👽</div>
+            <div class="center" onclick="onAddEmoji(this)">🐼</div>
+            <div class="center" onclick="onAddEmoji(this)">👓</div>
+            <div class="center" onclick="onAddEmoji(this)">💎</div>
+            <div class="center" onclick="onAddEmoji(this)">💣</div>
+            <div class="center" onclick="onAddEmoji(this)">🎇</div>
+            <div class="center" onclick="onAddEmoji(this)">🎃</div>
+            <div class="center" onclick="onAddEmoji(this)">🎱</div>
+            <div class="center" onclick="onAddEmoji(this)">🍌</div>
+            <div class="center" onclick="onAddEmoji(this)">🐱</div>
+            <div class="center" onclick="onAddEmoji(this)">🎮</div>
+            <div class="center" onclick="onAddEmoji(this)">🍨</div>
+            <div class="center" onclick="onAddEmoji(this)">🍄</div>
+            <div class="center" onclick="onAddEmoji(this)">🍁</div>
           </div>
           <div class="socials flex space-around">
-            <button class="hover" onclick="uploadImg()">share</button>
-            <button class="hover">
+            <button onclick="uploadImg()">share</button>
+            <button >
               <a download="my-meme.jpg" onclick="downloadImg(this)">save</a>
             </button>
           </div>
@@ -213,11 +225,13 @@
     </footer>
 
     <!-- MODALS -->
-    <div class="modal  full center" onclick="closeModal()">
+    <div class="modal full center" onclick="closeModal()">
       <section class="main-modal flex col">
-        <button class="close-modal center" onclick="closeModal()"><ion-icon name="close-outline"></ion-icon></button>
+        <button class="close-modal center" onclick="closeModal()">
+          <ion-icon name="close-outline"></ion-icon>
+        </button>
         <p class="share-link">
-          <span class="user-msg"></span>
+          <div class="user-msg"></div>
           <span class="share-container" onclick="closeModal()"></span>
         </p>
       </section>
