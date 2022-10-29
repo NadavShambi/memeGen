@@ -33,3 +33,15 @@
     src: url(../fonts/Poppins-Bold.ttf);
 }
 
+@font-face {
+    font-family: creepster;
+    src: url(../fonts/Creepster-Regular.ttf);
+}
+@font-face {
+    font-family: lucky;
+    src: url(../fonts/LuckiestGuy-Regular.ttf);
+}
+@font-face {
+    font-family: flower;
+    src: url(../fonts/IndieFlower-Regular.ttf);
+}

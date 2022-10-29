@@ -7,7 +7,7 @@
 .canvas-container {
     width: 100%;
     padding: 20px;
-
+    max-width: 800px;
 }
 
 canvas {
@@ -84,9 +84,6 @@ canvas {
     padding: 3px;
 }
 
-.text-dec>*>input {
-    visibility: hidden;
-}
 
 .text-dec>*:first-child {
     border-top-right-radius: var(--border-radius);
@@ -95,6 +92,15 @@ canvas {
 .text-dec>*:last-child {
     border-bottom-right-radius: var(--border-radius);
     padding-inline-start: 5px;
+}
+/* 
+.text-colors>*>input{
+    visibility: hidden;
+} */
+
+.text-colors>*{
+    height: 80px;
+    width: 80px;
 }
 
 .socials {

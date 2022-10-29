@@ -34,7 +34,7 @@ function setCurrMeme(id) {
   return gCurrMeme
 }
 
-function createNewMeme(img) {
+function createMeme(img) {
 
   const meme = {
     id: getRandomId(),
@@ -46,17 +46,19 @@ function createNewMeme(img) {
         txt: '',
         size: 60,
         pos: { x: calcCenterBaseWidthX(360.05859375), y: 80 },
-        color: '#ffffff',
+        color: ['#ffffff','#999999','#ffffff'],
         drag: false,
-        width: 360.05859375
+        width: 360.05859375,
+        font:'impact'
       },
       {
         txt: '',
         size: 60,
         pos: { x: calcCenterBaseWidthX(360.05859375), y: gElCanvas.height - 20 },
-        color: '#ffffff',
+        color: ['#ffffff','#999999','#ffffff'],
         drag: false,
-        width: 360.05859375
+        width: 360.05859375,
+        font:'impact'
       },
     ]
   }
@@ -84,13 +86,13 @@ function changeText(text) {
   return gCurrMeme
 }
 
-function setColor(color) {
-  gCurrMeme.lines[gCurrMeme.selectedLineIdx].color = color
+function setColor(color,idx ) {
+  gCurrMeme.lines[gCurrMeme.selectedLineIdx].color[idx] = color
   return gCurrMeme
 }
 
 function setFontSize(size) {
-  gCurrMeme.lines[gCurrMeme.selectedLineIdx].size = size
+  gCurrMeme.lines[gCurrMeme.selectedLineIdx].size = +size
   return gCurrMeme
 }
 
@@ -115,12 +117,18 @@ function addLine(txt = '') {
     txt,
     size: 80,
     pos: { x: calcCenterBaseWidthX(360.05859375), y: gElCanvas.height / 2 + 20 },
-    color: '#ffffff',
+    color: ['#ffffff','#999999','#ffffff'],
     drag: false,
-    width: 360.05859375
+    width: 360.05859375,
+    font:'impact'
   }
   gCurrMeme.lines.push(line)
   gCurrMeme.selectedLineIdx = gCurrMeme.lines.length - 1
+  return gCurrMeme
+}
+
+function changeFont(font){
+  gCurrMeme.lines[gCurrMeme.selectedLineIdx].font = font
   return gCurrMeme
 }
 
@@ -169,7 +177,6 @@ function createCategories() {
 function _createImgs() {
   return [
     { id: 26, url: './img/26.jpg', keywords: ['funny', 'man', 'drake', 'choises'] },
-    { id: 27, url: './img/27.jpg', keywords: ['funny', 'man', 'button', 'cartoons', 'choises'] },
     { id: 28, url: './img/28.jpg', keywords: ['funny', 'man', 'woman'] },
     { id: 29, url: './img/29.jpg', keywords: ['funny', 'cartoons'] },
     { id: 30, url: './img/30.jpg', keywords: ['funny', 'man', 'game'] },

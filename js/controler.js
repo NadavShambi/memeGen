@@ -1,6 +1,8 @@
 let gElCanvas
 let gCtx
 
+let gStartPos
+
 const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
 
 function onInit() {
@@ -57,7 +59,7 @@ function loadImageFromInput(ev, onImageReady) {
 function onUploadNewImg(src) {
     const img = getImgElement(src)
     resizeCanvas(img.height, img.width)
-    const meme = createNewMeme(src);
+    const meme = createMeme(src);
     renderMeme(meme)
     renderMemeSettings(meme.lines[0])
 }
@@ -127,14 +129,14 @@ function onStartNewMeme(ev) {
     img = getImgElement(ev.target.src)
     onChangeView('memes-gen')
     resizeCanvas(img.height, img.width)
-    const meme = createNewMeme(ev.target.src);
+    const meme = createMeme(ev.target.src);
     renderMeme(meme)
     renderMemeSettings(meme.lines[0])
 }
 
-function renderMeme(meme) {
+function renderMeme(meme, save = '') {
     renderImg(meme.img)
-    renderLines(meme.lines)
+    renderLines(meme.lines, save)
     setMemeResult()
 }
 
@@ -144,23 +146,40 @@ function renderImg(img) {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
 }
 
-function renderLines(lines) {
+function renderLines(lines, save = '') {
+    const meme = getCurrMeme()
+
     if (!lines.length) return
-    lines.forEach((line, idx) => {
-        const { pos, size, color, txt } = line
-        const width = writeText(pos.x, pos.y, size, color, txt)
+    lines.forEach((l, idx) => {
+        const { pos, size, color, txt, font } = l
+        if (idx === meme.selectedLineIdx && !save) drawBorder(l)
+        const width = writeText(pos.x, pos.y, size, color, txt, font)
         updateTextWidth(idx, width)
     })
 }
 
-function writeText(x, y, size, color, txt, font = 'Impact') {
+function onChangeFont(font) {
+    console.log(font);
+    const meme = changeFont(font)
+    renderMeme(meme)
+}
+
+function writeText(x, y, size, color, txt, font) {
     if (!txt) txt = 'Text Here!'
 
+
+    var gradient = gCtx.createLinearGradient(x, y, x + gCtx.measureText(txt).width, y - size);
+    gradient.addColorStop("0", color[0]);
+    gradient.addColorStop("0.5", color[1]);
+    gradient.addColorStop("1.0", color[2]);
+
+
     gCtx.font = `600 ${size}px ${font}`
-    gCtx.fillStyle = color
+    // gCtx.fillStyle = color
+    gCtx.fillStyle = gradient
     gCtx.fillText(txt, x, y)
-    gCtx.fillStyle = '#000000'
     gCtx.lineWidth = 1
+    gCtx.strokeStyle = '#000'
     gCtx.strokeText(txt, x, y)
     return gCtx.measureText(txt).width
 }
@@ -170,8 +189,8 @@ function onChangeText(text) {
     renderMeme(meme)
 }
 
-function onSetColor(color) {
-    const meme = setColor(color)
+function onSetColor(color,idx) {
+    const meme = setColor(color,idx)
     renderMeme(meme)
 }
 
@@ -185,7 +204,7 @@ function onAddLine() {
     renderMemeSettings()
     renderMeme(meme)
 }
-function onAddEmoji(txt){
+function onAddEmoji(txt) {
     const meme = addLine(txt.innerText)
     renderMemeSettings()
     renderMeme(meme)
@@ -199,6 +218,7 @@ function onDeleteLine() {
 function onSetChosenLine() {
     const meme = setChosenLine()
     renderMemeSettings()
+    renderMeme(meme)
 }
 function onAlignLeft() {
     const meme = alignLeft()
@@ -221,6 +241,8 @@ function onDeleteMeme() {
 function downloadImg(elLink) {
     // image/jpeg the default format
     console.log(elLink);
+    const meme = getCurrMeme()
+    renderMeme(meme, true)
     const imgContent = gElCanvas.toDataURL('image/jpeg')
     elLink.href = imgContent
 }
@@ -235,16 +257,22 @@ function renderMemeSettings() {
     const line = lines[selectedLineIdx]
 
     const fontSize = document.querySelector('.font-size')
-    const fontColor = document.querySelector('.font-color')
+    const fontColor0 = document.querySelector('.font-color0')
+    const fontColor1 = document.querySelector('.font-color1')
+    const fontColor2 = document.querySelector('.font-color2')
     const txt = document.querySelector('.meme-txt')
 
     if (line) {
         fontSize.value = line.size
-        fontColor.value = line.color
+        fontColor0.value = line.color[0]
+        fontColor1.value = line.color[1]
+        fontColor2.value = line.color[2]
         txt.value = line.txt
     } else {
         fontSize.value = 40
-        fontColor.value = '#000000'
+        fontColor0.value = '#ffffff'
+        fontColor1.value = '#999999'
+        fontColor2.value = '#ffffff'
         txt.value = ''
     }
 
@@ -276,7 +304,7 @@ function addTouchListeners() {
     gElCanvas.addEventListener('touchend', onUp)
 }
 
-function addWindowListeners(){
+function addWindowListeners() {
     window.addEventListener('resize', () => {
         if (window.innerWidth > 1200) document.querySelector('body').classList.remove('menu-open')
     })
@@ -288,23 +316,40 @@ function onDown(ev) {
     const meme = getCurrMeme()
     meme.lines.forEach((l, idx) => {
         if (!isTextClicked(pos, l)) return
+        console.log(isTextClicked(pos, l));
         setChosenLine(idx)
         renderMemeSettings()
         setTextDrag(true, idx)
         gElCanvas.style.cursor = 'grabbing'
     })
     gStartPos = pos
+
 }
 
 function onMove(ev) {
     const meme = getCurrMeme()
+    // pos.x - 5, pos.y - size - 5, width + 15, size + 15
+
     meme.lines.forEach(line => {
         if (!line.drag) return
-        const pos = getEvPos(ev)
-        const dx = pos.x - gStartPos.x
-        const dy = pos.y - gStartPos.y
+        let { pos, width, size } = line
+
+        // @TODO
+
+        const curPos = getEvPos(ev)
+
+        let dx = curPos.x - gStartPos.x
+        let dy = curPos.y - gStartPos.y
+        // if (pos.x < 5 || pos.x + width > gElCanvas.width - 5) 
+
+        if (pos.x < 7.5) dx = 1
+        else if (pos.x + width > gElCanvas.width - 7.5) dx = -1
+
+        if (pos.y > gElCanvas.height - 7.5) dy = -1
+        else if (pos.y - size < 7.5) dy = 1
+
         moveText(dx, dy)
-        gStartPos = pos
+        gStartPos = curPos
     })
     renderMeme(meme)
 }
@@ -335,64 +380,79 @@ function getEvPos(ev) {
 
 function isTextClicked(clickedPos, t) {
     let { pos, size, width } = t
-    return (clickedPos.x >= pos.x && clickedPos.x <= pos.x + width && clickedPos.y <= pos.y && clickedPos.y >= pos.y - size)
+    // pos.x - 5, pos.y - size - 5, width + 15, size + 15
+    return (clickedPos.x >= pos.x - 7.5 && clickedPos.x <= pos.x + width + 7.5 && clickedPos.y <= pos.y - 7.5 && clickedPos.y >= pos.y - size - 7.5)
 }
 
 function onMenu() {
     document.querySelector('body').classList.toggle('menu-open')
 }
 
-function closeMenu(){
+function closeMenu() {
     document.querySelector('body').classList.remove('menu-open')
 }
 
+function drawBorder(line) {
+    const { pos, width, size } = line
 
+    const gradient = gCtx.createLinearGradient(0, 0, gElCanvas.width, gElCanvas.height)
+    gradient.addColorStop('0', '#eee')
+    gradient.addColorStop('.5', '#999')
+    gradient.addColorStop('1', '#333')
+
+
+
+    gCtx.lineWidth = 5
+    gCtx.strokeStyle = gradient
+    gCtx.strokeRect(pos.x - 5, pos.y - size - 5, width + 15, size + 15)
+}
 
 function uploadImg() {
     const imgDataUrl = gElCanvas.toDataURL("image/jpeg")
-  
+
     function onSuccess(uploadedImgUrl) {
-      // Encode the instance of certain characters in the url
-      const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
-      console.log(encodedUploadedImgUrl)
-      
-      // Create a link that on click will make a post in facebook with the image we uploaded
-      const link = `
+        // Encode the instance of certain characters in the url
+        const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
+        console.log(encodedUploadedImgUrl)
+
+        // Create a link that on click will make a post in facebook with the image we uploaded
+        const link = `
       <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
       Share   
       </a>`
-      openModal(link)
+        openModal(link)
     }
     doUploadImg(imgDataUrl, onSuccess)
-  }
-  
-  function openModal(link){
+}
+
+function openModal(link) {
     document.querySelector('.modal').classList.add('open')
     document.querySelector('.user-msg').innerText = `Your photo is available here: `
     document.querySelector('.share-container').innerHTML = link
-  }
-  
-  function closeModal(){
+}
+
+function closeModal() {
     document.querySelector('.modal').classList.remove('open')
-  }
-  
-  function doUploadImg(imgDataUrl, onSuccess) {
+}
+
+function doUploadImg(imgDataUrl, onSuccess) {
     // Pack the image for delivery
     const formData = new FormData()
     formData.append('img', imgDataUrl)
     const XHR = new XMLHttpRequest()
     XHR.onreadystatechange = () => {
-   
-      if (XHR.readyState !== XMLHttpRequest.DONE) return
-      if (XHR.status !== 200) return console.error('Error uploading image')
-      const { responseText: url } = XHR
-  
-      console.log('Got back live url:', url)
-      onSuccess(url)
+
+        if (XHR.readyState !== XMLHttpRequest.DONE) return
+        if (XHR.status !== 200) return console.error('Error uploading image')
+        const { responseText: url } = XHR
+
+        console.log('Got back live url:', url)
+        onSuccess(url)
     }
     XHR.onerror = (req, ev) => {
-      console.error('Error connecting to server with request:', req, '\nGot response data:', ev)
+        console.error('Error connecting to server with request:', req, '\nGot response data:', ev)
     }
     XHR.open('POST', '//ca-upload.com/here/upload.php')
     XHR.send(formData)
-  }
+}
+

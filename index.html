@@ -92,6 +92,17 @@
               <button class="center" onclick="onAlignRight()">
                 <img src="./icon/align-to-right.png" alt="" />
               </button>
+              <select class="font-family" onchange="onChangeFont(this.value)">
+                <option value="impact">Impact</option>
+                <option value="poppins">Poppins</option>
+                <option value="Ariel">Ariel</option>
+                <option value="pacifico">Pacifico</option>
+                <option value="Courier New">Courier New</option>
+                <option value="serif">Serif</option>
+                <option value="lucky">Luckiest Guy</option>
+                <option value="creepster">Creepster</option>
+                
+              </select>
             </div>
           </div>
           <div class="text-controls flex">
@@ -102,15 +113,7 @@
               placeholder="Text Here!"
             />
             <div class="text-dec flex col align-center">
-              <label class="center">
-                <img src="./icon/paint.png" alt="">
-                <input
-                  class="font-color"
-                  type="color"
-                  oninput="onSetColor(this.value)"
-                  
-                />
-              </label>
+          <!-- BTN MAYBE -->
               <input
                 class="font-size"
                 type="number"
@@ -120,6 +123,33 @@
                 oninput="onSetFontSize(this.value)"
               />
             </div>
+          </div>
+          <div class="text-colors flex space-around">
+            <label class="center">
+              <img src="./icon/paint.png" alt="">
+              <input
+                class="font-color0"
+                type="color"
+                oninput="onSetColor(this.value,0)"
+                
+              />
+            </label>    <label class="center">
+              <img src="./icon/paint.png" alt="">
+              <input
+                class="font-color1"
+                type="color"
+                oninput="onSetColor(this.value,1)"
+                
+              />
+            </label>    <label class="center">
+              <img src="./icon/paint.png" alt="">
+              <input
+                class="font-color2"
+                type="color"
+                oninput="onSetColor(this.value,2)"
+                
+              />
+            </label>
           </div>
           <div class="emojis flex">
           <div class="center" onclick="onAddEmoji(this)">😎</div>
