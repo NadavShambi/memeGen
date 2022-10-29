@@ -18,6 +18,9 @@ canvas {
     cursor: grab;
 }
 
+.line-controls>* {
+    padding: 10px 20px;
+}
 .line-controls {
     display: grid;
     grid-template-areas:
@@ -26,9 +29,6 @@ canvas {
 }
 
 
-.line-controls>* {
-    padding: 10px 20px;
-}
 
 .line-controls>*:nth-child(1) {
     grid-area: tl;
@@ -157,16 +157,17 @@ canvas {
 
 .color-picker::before {
     content: '';
-    background: #eee;
+    background: var(--dark3);
     height: 5px;
     width: 0;
     position: absolute;
     bottom: 0;
     transition: .5s;
+    border-radius: 2em;
 }
 
 .color-picker:hover::before {
-    width: 100%;
+    width: 96%;
 }
 
 .color-picker>input {
@@ -235,7 +236,7 @@ canvas {
 }
 
 .socials {
-    margin-top: auto;
+    margin-top: 20px;
 }
 
 .socials>* {
@@ -243,6 +244,9 @@ canvas {
     font-size: 2em;
     border-radius: 2em;
 
+}
+.socials> *:first-child{
+    margin-block-end: 15px;
 }
 
 .socials>*:hover {

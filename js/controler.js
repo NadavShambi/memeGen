@@ -117,6 +117,8 @@ function renderSavedMemes() {
 function onEditMeme(id) {
     const meme = setCurrMeme(id)
     const img = getImgElement(meme.img)
+    onActive()
+
     onChangeView('memes-gen')
     resizeCanvas(img.height, img.width)
     renderMemeSettings()
@@ -151,8 +153,8 @@ function renderLines(lines, save = '') {
     lines.forEach((l, idx) => {
         const { pos, size, color, txt, font } = l
         const width = writeText(pos.x, pos.y, size, color, txt, font)
-        if (idx === meme.selectedLineIdx && !save) drawBorder(l)
         updateTextWidth(idx, width)
+        if (idx === meme.selectedLineIdx && !save) drawBorder(l)
     })
 }
 
@@ -235,6 +237,7 @@ function onAlignCenter() {
 
 function onDeleteMeme() {
     deleteMeme()
+    onActive('mem')
     onChangeView('memes')
 }
 
@@ -438,22 +441,24 @@ function closeModal() {
 
 function renderModal(result,link ){
     const innerHTML =  `
-    <div class="flex col align-center">
-    <img class="modal-img" src="${result}" alt="">
-    <div class="social-share flex space-around">
-    ${link}
-    <a><img src="./icon/whatsapp.png" title="coming soon"></a>
-    <a><img src="./icon/linkedin.png" title="coming soon"></a>
-    <a><img src="./icon/twitter.png" title="coming soon"></a>
-    
-    </div>
-    
+    <div class="flex col align-center" onclick="muhahaha(event)">
+        <img class="modal-img" src="${result}" alt="">
+        <div class="social-share flex space-around">
+            ${link}
+            <a  title="coming soon"><img src="./icon/whatsapp.png" ></a>
+            <a  title="coming soon"><img src="./icon/linkedin.png" ></a>
+            <a  title="coming soon"><img src="./icon/twitter.png"></a>
+         </div>
+        <small></small>
     </div>
     `
     document.querySelector('.user-msg').innerHTML = innerHTML
     // document.querySelector('.share-container').innerHTML = link
 }
 
+function muhahaha(e){
+    e.stopPropagation()
+}
 function doUploadImg(imgDataUrl, onSuccess) {
     // Pack the image for delivery
     const formData = new FormData()

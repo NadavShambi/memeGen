@@ -12,14 +12,15 @@ z-index: 200000;
 }
 
 .main-modal{
-    background: linear-gradient(to top,linen,#eee5);
+    background: linear-gradient(to top,linen,#eee9);
     font-size: 1.2em;
     padding: 20px;
     color: var(--dark3);
     font-family: poppins-bold;
     border-radius: var(--border-radius);
-    box-shadow: 5px 5px var(--dark1),
-    inset 5px 5px 15px var(--light3);
+    box-shadow: 5px 5px 15px var(--dark1),
+    inset 3px 3px 10px 3px var(--light3),
+    inset 6px 6px 20px 6px var(--light1);
     position: relative;
 }
 .modal.open{
