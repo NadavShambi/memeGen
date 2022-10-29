@@ -170,10 +170,11 @@ function writeText(x, y, size, color, txt, font) {
     gradient.addColorStop("0.5", color[1]);
     gradient.addColorStop("1.0", color[2]);
     gCtx.fillStyle = gradient
-    gCtx.font = `600 ${size}px ${font}`
-    gCtx.fillText(txt, x, y)
+    gCtx.font = `${size}px ${font}`
     gCtx.lineWidth = 1
     gCtx.strokeStyle = '#000'
+    gCtx.letterSpacing = '3px'
+    gCtx.fillText(txt, x, y)
     gCtx.strokeText(txt, x, y)
     return gCtx.measureText(txt).width
 }
@@ -237,6 +238,7 @@ function onAlignCenter() {
 
 function onDeleteMeme() {
     deleteMeme()
+    
     onActive('mem')
     onChangeView('memes')
 }
@@ -263,19 +265,22 @@ function renderMemeSettings() {
     const fontColor1 = document.querySelector('.font-color1')
     const fontColor2 = document.querySelector('.font-color2')
     const txt = document.querySelector('.meme-txt')
-
+    const font = document.querySelector('.font-family')
     if (line) {
         fontSize.value = line.size
         fontColor0.value = line.color[0]
         fontColor1.value = line.color[1]
         fontColor2.value = line.color[2]
         txt.value = line.txt
+        font.value = line.font
     } else {
         fontSize.value = 40
         fontColor0.value = '#ffffff'
         fontColor1.value = '#999999'
         fontColor2.value = '#ffffff'
         txt.value = ''
+        font.value = 'impact'
+
     }
     renderColorRange(line.color)
 
