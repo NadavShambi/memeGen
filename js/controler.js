@@ -201,6 +201,7 @@ function onChangeText(text) {
     renderMeme(meme)
 }
 
+
 function onSetColor(color, idx) {
     const meme = setColor(color, idx)
     color = meme.lines[meme.selectedLineIdx].color
