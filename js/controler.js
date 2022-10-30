@@ -185,16 +185,7 @@ function writeText(x, y, size, color, txt, font) {
     gradient.addColorStop("0.5", color[1]);
     gradient.addColorStop("1.0", color[2]);
     gCtx.fillStyle = gradient
-   
     gCtx.setLineDash([]);
-
-    if(x + gCtx.measureText(txt).width >= gElCanvas.width){
-        const meme = getCurrMeme()
-        const {lines,selectedLineIdx} = meme
-        lines[selectedLineIdx].pos.x = x - 50
-        renderMeme(meme)
-        return
-    }
 
     gCtx.font = `${size}px ${font}`
     gCtx.lineWidth = 1

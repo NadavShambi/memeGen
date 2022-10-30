@@ -49,6 +49,14 @@
     font-family: rubik;
     src: url(../fonts/RubikMoonrocks-Regular.ttf);
 }
+@font-face {
+    font-family: SedgwickAveDisplay;
+    src: url(../fonts/SedgwickAveDisplay-Regular.ttf);
+}
+@font-face {
+    font-family: AreYouSerious;
+    src: url(../fonts/AreYouSerious-Regular.ttf);
+}
 
 .flower{
     font-family: flower;
@@ -77,4 +85,12 @@
 
 .pacifico{
     font-family: pacifico;
+}
+
+.SedgwickAveDisplay{
+    font-family: SedgwickAveDisplay;
+}
+
+.AreYouSerious{
+    font-family: AreYouSerious;
 }
