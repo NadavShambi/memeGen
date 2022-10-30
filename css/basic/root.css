@@ -45,3 +45,36 @@
     font-family: flower;
     src: url(../fonts/IndieFlower-Regular.ttf);
 }
+@font-face {
+    font-family: rubik;
+    src: url(../fonts/RubikMoonrocks-Regular.ttf);
+}
+
+.flower{
+    font-family: flower;
+
+}
+
+.rubik{
+    font-family: rubik;
+}
+
+.lucky{
+    font-family: lucky;
+}
+
+.impact{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.poppins{
+    font-family: poppins;
+}
+
+.ariel{
+    font-family: ariel;
+}
+
+.pacifico{
+    font-family: pacifico;
+}

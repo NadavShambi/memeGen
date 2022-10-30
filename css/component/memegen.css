@@ -20,6 +20,7 @@ canvas {
 .line-controls>* {
     padding: 10px 20px;
 }
+
 .line-controls {
     display: grid;
     grid-template-areas:
@@ -124,6 +125,22 @@ canvas {
 
 .text-colors {
     position: relative;
+    margin-top: 40px;
+}
+
+.text-colors::before {
+    content: 'set the gradient';
+    position: absolute;
+    font-family: lucky;
+    background: var(--light3);
+    -webkit-text-stroke: 1px  var(--dark3);
+    text-transform: uppercase;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 1.5em;
+    top: -20px;
+    left: 5px;
 }
 
 .text-colors>* {
@@ -171,9 +188,10 @@ canvas {
     width: 100%;
     text-align: center;
 }
+
 .color-picker {
     z-index: 5;
-    padding-block-end: 3.5em;
+    padding-block-end: 1.5em;
     overflow: hidden;
     position: relative;
 }
@@ -182,12 +200,11 @@ canvas {
     position: absolute;
     background: linear-gradient(to left, #eee, #999, #eee);
     width: 100%;
-    height: 5em;
+    height: 3em;
     bottom: 0;
-    border-radius: .45em .45em 0 0;
+    border-radius: 0 0 .45em .45em;
     box-shadow:
         -5px -5px 6px #3335;
-    transform: rotate(180deg);
 }
 
 .emojis {
@@ -222,15 +239,14 @@ canvas {
     padding-inline: 8px;
     user-select: none;
     cursor: pointer;
-    transition: transform .5;
 }
 
 .emojis>*:not(:first-child) {
     border-left: 1px solid var(--dark1);
 }
 
-.emojis>*:hover{
-   transform: scale(1.1);
+.emojis>*:hover {
+    background: radial-gradient(var(--light3),var(--light1));
 }
 
 .socials {
@@ -243,10 +259,19 @@ canvas {
     border-radius: 2em;
 
 }
-.socials> *:first-child{
+
+.socials>*:first-child {
     margin-block-end: 15px;
 }
 
 .socials>*:hover {
     background-color: var(--pr-clr);
 }
+
+.save-img {
+    display: flex;
+    justify-content: center;
+    color: #eee;
+    text-decoration: none;
+}
+

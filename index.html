@@ -44,7 +44,7 @@
     <main class="content">
       <div class="gallery-container">
         <div class="upload flex col align-center">
-          <label>
+          <label class="flex col align center">
             <h2>Select Image</h2>
             <h1><ion-icon name="camera"></ion-icon></h1>
             <input type="file" name="image" onchange="onImgInp(event)" />
@@ -57,7 +57,7 @@
               name="category"
               list="category"
               class="search"
-              type="text"
+              type="search"
               oninput=" renderCategories(this.value)"
             />
           </label>
@@ -74,10 +74,6 @@
         </div>
 
         <div class="meme-editor flex col">
-          <!-- <span>font family</span> -->
-          <!-- <span>bigger</span> -->
-          <!-- <span>smaller</span> -->
-          <!-- <span>stroke</span> -->
           <button class="del-meme center" onclick="onDeleteMeme()">
             Delete Meme
           </button>
@@ -104,14 +100,15 @@
                   <img src="./icon/align-to-right.png" alt="" />
                 </button>
                 <select class="font-family" onchange="onChangeFont(this.value)">
-                  <option value="impact">Impact</option>
-                  <option value="poppins">Poppins</option>
-                  <option value="Ariel">Ariel</option>
-                  <option value="pacifico">Pacifico</option>
-                  <option value="Courier New">Courier New</option>
-                  <option value="serif">Serif</option>
-                  <option value="lucky">Luckiest Guy</option>
-                  <option value="creepster">Creepster</option>
+                  <option value="impact" class="impact">Impact</option>
+                  <option value="poppins" class="poppins">Poppins</option>
+                  <option value="Ariel" class="ariel">Ariel</option>
+                  <option value="pacifico" class="pacifico">Pacifico</option>
+                  <option value="Courier New" class="courier">Courier New</option>
+                  <option value="lucky" class="lucky">Luckiest Guy</option>
+                  <option value="creepster" class="pacifico">Creepster</option>
+                  <option value="flower" class="flower">Flower</option>
+                  <option value="rubik" class="rubik">Rubik Moonrocks</option>
                 </select>
 
             </div>
@@ -121,7 +118,7 @@
               class="meme-txt"
               type="text"
               oninput="onChangeText(this.value)"
-              placeholder="Text Here!"
+              placeholder="Text here!"
             />
             <div class="text-dec flex col align-center">
               <!-- BTN MAYBE -->
@@ -137,7 +134,6 @@
           </div>
           <div class="text-colors flex align-center space-around">
             <div class="color-range"></div>
-
             <label class="color-picker flex col align-center">
               <span>Start</span>
               <input
@@ -209,7 +205,7 @@
           <div class="socials flex col space-around">
             <button onclick="uploadImg()">share</button>
             <button >
-              <a download="my-meme.jpg" onclick="downloadImg(this)">save</a>
+              <a download="my-meme.jpg" onclick="downloadImg(this)" class="save-img">save</a>
             </button>
           </div>
         </div>
@@ -219,6 +215,7 @@
         <!-- <h2>memes here</h2> -->
       </section>
     </main>
+
 
     <footer class="main-footer center full">
       <small>Nadav Shambi&copy; - 2022 </small>

@@ -30,8 +30,8 @@ body.menu-open .main-nav{
 
 .main-nav>* {
     height: 100px;
-    width: 80vw;
-    background: var(--dark1);
+    width: 100vw;
+    background: #777;
     box-shadow: inset 0 0 1px var(--light3);
     font-size: 1.3em;
     font-family: 'poppins-bold';

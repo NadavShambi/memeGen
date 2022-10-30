@@ -11,3 +11,18 @@
 .line-controls>*:nth-child(3){
     border-radius: 0;
 }
+
+.gallery {
+    grid-auto-rows: auto;
+    grid-auto-flow: dense;
+}
+
+/* .gallery>*:nth-child(6n+1) {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.gallery>*:nth-child(3n-3) {
+    grid-column: span 2;
+    grid-row: span 2;
+} */

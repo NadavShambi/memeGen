@@ -1,14 +1,15 @@
 let gElCanvas
 let gCtx
+let gCurrImg
 
 let gStartPos
+
 
 const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
 
 function onInit() {
     gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
-    // resizeCanvas()
     renderGallery()
     renderCategories()
     addListeners()
@@ -28,7 +29,7 @@ function onChangeView(view) {
     if (view === 'memes') renderSavedMemes()
 }
 
-function resizeCanvas(imgH, imgW) {
+function resizeCanvas(imgH = gCurrImg.height, imgW = gCurrImg.width) {
     const elContainer = document.querySelector('.canvas-container')
     gElCanvas.width = elContainer.offsetWidth
     gElCanvas.height = imgH * gElCanvas.width / imgW
@@ -56,10 +57,11 @@ function loadImageFromInput(ev, onImageReady) {
 
 function onUploadNewImg(src) {
     const img = getImgElement(src)
+    gCurrImg = img
     resizeCanvas(img.height, img.width)
     const meme = createMeme(src);
     renderMeme(meme)
-    renderMemeSettings(meme.lines[0])
+    renderMemeSettings()
 }
 
 function onActive(active) {
@@ -103,12 +105,23 @@ function renderCategories(input = '') {
 
 function renderSavedMemes() {
     const memes = getMemes()
-    const memesHTML = memes.map(meme => {
-        return `
-        <img src="${meme.result}" class="img" onclick="onEditMeme('${meme.id}')">
-        
+    let memesHTML
+    if (!memes.length) {
+        memesHTML = `
+        <div class="no-memes full">
+        <img src ="./icon/oops.png">
+        <h1>There are no saved memes yet</h1>
+        <h2>Back to <a onclick="onChangeView('gallery-container');onActive('gal')">Gallery</a></h2>
+        </div>
         `
-    }).join('')
+    } else {
+        memesHTML = memes.map(meme => {
+            return `
+            <img src="${meme.result}" class="img" onclick="onEditMeme('${meme.id}')">
+            
+            `
+        }).join('')
+    }
     document.querySelector('.memes').innerHTML = memesHTML
 }
 
@@ -117,6 +130,7 @@ function renderSavedMemes() {
 function onEditMeme(id) {
     const meme = setCurrMeme(id)
     const img = getImgElement(meme.img)
+    gCurrImg = img
     onActive()
 
     onChangeView('memes-gen')
@@ -126,12 +140,13 @@ function onEditMeme(id) {
 }
 
 function onStartNewMeme(ev) {
-    img = getImgElement(ev.target.src)
+    const img = getImgElement(ev.target.src)
+    gCurrImg = img
     onChangeView('memes-gen')
     resizeCanvas(img.height, img.width)
     const meme = createMeme(ev.target.src);
     renderMeme(meme)
-    renderMemeSettings(meme.lines[0])
+    renderMemeSettings()
 }
 
 function renderMeme(meme, save = '') {
@@ -140,10 +155,10 @@ function renderMeme(meme, save = '') {
     setMemeResult()
 }
 
-function renderImg(img) {
+function renderImg(imgSrc) {
     // Draw the img on the canvas
-    img = getImgElement(img)
-    gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
+    const elImg = getImgElement(imgSrc)
+    gCtx.drawImage(elImg, 0, 0, gElCanvas.width, gElCanvas.height)
 }
 
 function renderLines(lines, save = '') {
@@ -170,6 +185,17 @@ function writeText(x, y, size, color, txt, font) {
     gradient.addColorStop("0.5", color[1]);
     gradient.addColorStop("1.0", color[2]);
     gCtx.fillStyle = gradient
+   
+    gCtx.setLineDash([]);
+
+    if(x + gCtx.measureText(txt).width >= gElCanvas.width){
+        const meme = getCurrMeme()
+        const {lines,selectedLineIdx} = meme
+        lines[selectedLineIdx].pos.x = x - 50
+        renderMeme(meme)
+        return
+    }
+
     gCtx.font = `${size}px ${font}`
     gCtx.lineWidth = 1
     gCtx.strokeStyle = '#000'
@@ -185,16 +211,15 @@ function onChangeText(text) {
 }
 
 function onSetColor(color, idx) {
-
     const meme = setColor(color, idx)
     color = meme.lines[meme.selectedLineIdx].color
     renderColorRange(color)
     renderMeme(meme)
 }
 
-function renderColorRange(color){
+function renderColorRange(color) {
     const range = document.querySelector('.color-range')
-    range.style.background = `linear-gradient(to left,${color[0]},${color[1]},${color[2]})`
+    range.style.background = `linear-gradient(to right,${color[0]},${color[1]},${color[2]})`
 }
 
 function onSetFontSize(size) {
@@ -238,7 +263,7 @@ function onAlignCenter() {
 
 function onDeleteMeme() {
     deleteMeme()
-    
+
     onActive('mem')
     onChangeView('memes')
 }
@@ -266,6 +291,7 @@ function renderMemeSettings() {
     const fontColor2 = document.querySelector('.font-color2')
     const txt = document.querySelector('.meme-txt')
     const font = document.querySelector('.font-family')
+
     if (line) {
         fontSize.value = line.size
         fontColor0.value = line.color[0]
@@ -287,6 +313,7 @@ function renderMemeSettings() {
 }
 
 function getImgElement(src) {
+
     const img = new Image()
     img.src = src
     return img
@@ -315,8 +342,12 @@ function addTouchListeners() {
 function addWindowListeners() {
     window.addEventListener('resize', () => {
         if (window.innerWidth > 1200) document.querySelector('body').classList.remove('menu-open')
+        if (!gCurrImg) return
+        resizeCanvas()
+        const meme = getCurrMeme()
+        if(!meme)return
+        renderMeme(meme)
     })
-
 }
 
 function onDown(ev) {
@@ -340,8 +371,6 @@ function onMove(ev) {
     meme.lines.forEach(line => {
         if (!line.drag) return
         let { pos, width, size } = line
-
-        // @TODO
 
         const curPos = getEvPos(ev)
 
@@ -387,8 +416,7 @@ function getEvPos(ev) {
 
 function isTextClicked(clickedPos, t) {
     let { pos, size, width } = t
-    // pos.x - 5, pos.y - size - 5, width + 15, size + 15
-    return (clickedPos.x >= pos.x - 7.5 && clickedPos.x <= pos.x + width + 7.5 && clickedPos.y <= pos.y - 7.5 && clickedPos.y >= pos.y - size - 7.5)
+    return (clickedPos.x >= pos.x - 5 && clickedPos.x <= pos.x + width + 15 && clickedPos.y <= pos.y - 5 && clickedPos.y >= pos.y - size - 15)
 }
 
 function onMenu() {
@@ -401,17 +429,11 @@ function closeMenu() {
 
 function drawBorder(line) {
     const { pos, width, size } = line
-
-    const gradient = gCtx.createLinearGradient(0, 0, gElCanvas.width, gElCanvas.height)
-    gradient.addColorStop('0', '#eee')
-    gradient.addColorStop('.5', '#999')
-    gradient.addColorStop('1', '#333')
-
-
-
+    gCtx.setLineDash([18,18]);
     gCtx.lineWidth = 5
-    gCtx.strokeStyle = gradient
+    gCtx.strokeStyle = '#ffffff'
     gCtx.strokeRect(pos.x - 5, pos.y - size - 5, width + 15, size + 15)
+    gCtx.closePath()
 }
 
 function uploadImg() {
@@ -444,8 +466,8 @@ function closeModal() {
     document.querySelector('.modal').classList.remove('open')
 }
 
-function renderModal(result,link ){
-    const innerHTML =  `
+function renderModal(result, link) {
+    const innerHTML = `
     <div class="flex col align-center" onclick="muhahaha(event)">
         <img class="modal-img" src="${result}" alt="">
         <div class="social-share flex space-around">
@@ -461,9 +483,10 @@ function renderModal(result,link ){
     // document.querySelector('.share-container').innerHTML = link
 }
 
-function muhahaha(e){
+function muhahaha(e) {
     e.stopPropagation()
 }
+
 function doUploadImg(imgDataUrl, onSuccess) {
     // Pack the image for delivery
     const formData = new FormData()
@@ -475,7 +498,6 @@ function doUploadImg(imgDataUrl, onSuccess) {
         if (XHR.status !== 200) return console.error('Error uploading image')
         const { responseText: url } = XHR
 
-        console.log('Got back live url:', url)
         onSuccess(url)
     }
     XHR.onerror = (req, ev) => {
