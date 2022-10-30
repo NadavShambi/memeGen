@@ -165,7 +165,6 @@ canvas {
 
 .color-picker:hover{
    filter: invert(0.1);
-   /* filter: contrast(.85); */
 }
 
 .color-picker>input {

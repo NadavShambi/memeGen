@@ -112,15 +112,14 @@ function setMemeResult() {
 }
 
 function addLine(txt = '') {
-  const lastLine = getSelectedLine()
   const line = {
     txt,
     size: 80,
     pos: { x: calcCenterBaseWidthX(360.05859375), y: gElCanvas.height / 2 + 20 },
-    color: [lastLine.color[2], lastLine.color[1], lastLine.color[0]],
+    color: ['#eeeeee', '#999999', '#eeeeee'],
     drag: false,
     width: 360.05859375,
-    font: lastLine.font
+    font: 'Impact'
   }
   gCurrMeme.lines.push(line)
   gCurrMeme.selectedLineIdx = gCurrMeme.lines.length - 1

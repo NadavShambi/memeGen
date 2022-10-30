@@ -275,7 +275,7 @@ function getCanvasImgLink() {
 function renderMemeSettings() {
     const { lines, selectedLineIdx } = getCurrMeme()
     const line = lines[selectedLineIdx]
-
+    if(!lines.length)return
     const fontSize = document.querySelector('.font-size')
     const fontColor0 = document.querySelector('.font-color0')
     const fontColor1 = document.querySelector('.font-color1')
