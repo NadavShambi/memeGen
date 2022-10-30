@@ -163,20 +163,9 @@ canvas {
     border-radius: 0 var(--border-radius) 0 0;
 }
 
-
-.color-picker::before {
-    content: '';
-    background: var(--dark3);
-    height: 5px;
-    width: 0;
-    position: absolute;
-    bottom: 0;
-    transition: .5s;
-    border-radius: 2em;
-}
-
-.color-picker:hover::before {
-    width: 96%;
+.color-picker:hover{
+   filter: invert(0.1);
+   /* filter: contrast(.85); */
 }
 
 .color-picker>input {
